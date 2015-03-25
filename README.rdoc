@@ -1,28 +1,28 @@
-== RevsIndexerSevice
+=RevsIndexerSevice
 
 Code to harvest Revs metadata from DOR and index it into Solr for the Revs Digital Library application
 
-= Installing
+== Installing
 
-checkout code
-cp config/solr.yml.example config/solr.yml
-edit config/solr.yml file to add in actual solr URLs
-bundle install
+* checkout code
+* cp config/solr.yml.example config/solr.yml
+* edit config/solr.yml file to add in actual solr URLs
+* bundle install
 
-= Testing on the command Line 
+== Testing on the command Line 
 
 rails c
 
-pid='bb895tg4452'
-indexer = BaseIndexer::MainIndexerEngine.new
-purl=indexer.read_purl(pid) # will go out to actual purl page and grab full public xml
-mods=indexer.read_mods(pid) # will go out to actual purl page and grab full mods
-collection_names=indexer.get_collection_names(purl.collection_druids) # will get collections this pid belongs to
-indexer.index(pid) # do the full indexing (including posting to solr) 
+  pid='bb895tg4452'
+  indexer = BaseIndexer::MainIndexerEngine.new
+  purl=indexer.read_purl(pid) # will go out to actual purl page and grab full public xml
+  mods=indexer.read_mods(pid) # will go out to actual purl page and grab full mods
+  collection_names=indexer.get_collection_names(purl.collection_druids) # will get collections this pid belongs to
+  indexer.index(pid) # do the full indexing (including posting to solr) 
 
-mapper = RevsMapper.new(pid,mods,purl,collection_names)
-puts mapper.map # will perform a mapping to solr_doc
+  mapper = RevsMapper.new(pid,mods,purl,collection_names)
+  puts mapper.map # will perform a mapping to solr_doc
 
-= Running tests
+== Running tests
 
 bundle exec rspec spec
