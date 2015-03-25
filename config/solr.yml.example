@@ -1,0 +1,6 @@
+revs:
+  url: prod-url
+revs\:dev:
+  url: dev-url
+revs\:stage:
+  url: stage-url

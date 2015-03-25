@@ -1,0 +1,1 @@
+#BaseIndexer.mapper_class = 'RevsMapper'
