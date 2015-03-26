@@ -28,10 +28,11 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
-    base_indexer (0.1)
+    base_indexer (0.1.2)
       discovery-indexer
       rails (~> 4.1.9)
     builder (3.2.2)
+    chronic (0.10.2)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -39,8 +40,11 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1)
+    countries (0.9.2)
+      currencies (>= 0.4.0)
+    currencies (0.4.2)
     diff-lcs (1.2.5)
-    discovery-indexer (0.3)
+    discovery-indexer (0.5)
       nokogiri
       retries
       rsolr
@@ -60,6 +64,7 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.2)
+    link_header (0.0.8)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
@@ -95,9 +100,16 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
+    rdf (1.1.10)
+      link_header (~> 0.0, >= 0.0.8)
     rdoc (4.2.0)
       json (~> 1.4)
     retries (0.0.5)
+    revs-utils (2.0.7)
+      actionpack (~> 4.1.6)
+      chronic
+      countries (= 0.9.2)
+      rdf
     rsolr (1.0.12)
       builder (>= 2.1.2)
     rspec-core (3.2.2)
@@ -167,6 +179,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   rails (= 4.1.10)
+  revs-utils
   rspec-rails
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

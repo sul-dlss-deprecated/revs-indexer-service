@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'base_indexer'
+gem 'revs-utils'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.10'
