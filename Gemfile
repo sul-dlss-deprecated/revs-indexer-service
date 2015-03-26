@@ -47,3 +47,15 @@ group :test do
 	gem 'simplecov-rcov', :require => false
   gem 'equivalent-xml'
 end
+
+# gems necessary for capistrano deployment
+group :deployment do
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'lyberteam-capistrano-devel', '~>3'
+  gem 'capistrano-rvm'
+end
+
+gem 'squash_ruby', :require => 'squash/ruby'
+gem 'squash_rails', :require => 'squash/rails'
