@@ -1,1 +1,1 @@
-#BaseIndexer.mapper_class = 'RevsMapper'
+BaseIndexer.mapper_class_name = 'RevsMapper'
