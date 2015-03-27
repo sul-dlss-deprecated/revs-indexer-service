@@ -5,48 +5,24 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
   include Revs::Utils
 
   REVS_INSTITUTE_DRUID='nt028fd5773' # the druid of the master Revs Institute Collection -- will not be added to each item record when indexed
-
-  def doc_exists?
-    response=self.solr_client.get 'select', :params=>{:q=>'id:"' + @druid + '"'}  
-    response['response']['numFound'] == 1
-  end
-  
-  def update_solr(values)
-    url="#{solr_client.options[:url]}/update?commit=true"
-    params="[{\"id\":\"#{@druid}\","
-    values.each do |field_name,new_values|
-      unless field_name == :id
-        params+="\"#{field_name}\":"
-        new_values=[new_values] unless new_values.class==Array
-        new_values = new_values.map {|s| s.to_s.gsub("\\","\\\\\\").gsub('"','\"').strip} # strip leading/trailing spaces and escape quotes for each value
-        params+="{\"set\":[\"#{new_values.join('","')}\"]},"
-      end
-    end
-    params.chomp!(',')
-    params+="}]"
-    RestClient.post url, params,:content_type => :json, :accept=>:json
-  end
   
   # @druid   ==  druid pid
   # @modsxml == Stanford::Mods::Record class object
   # @modsxml.mods_ng_xml == Nokogiri document (for custom parsing)
   # @purlxml == DiscoveryIndexer::InputXml::PurlxmlModel class object
   # @purlxml.public_xml == Nokogiri document (for custom parsing)
+  # @collection_names = hash of collection_druid and
+  # collection_name !{"aa111aa1111"=>"First Collection", "bb123bb1234"=>"Second Collection"}
 
   # Create a Hash representing a Solr doc, with all MODS related fields populated.
   # @return [Hash] Hash representing the Solr document
   def map
 
-    doc_hash = {
-      :id => @druid, 
-    }
-
-    pub_date=@modsxml.origin_info.dateCreated.text.strip
-
     # basic fields
     doc_hash = { 
       
       # title fields
+      :id => @druid, 
       :title_tsi => @modsxml.title_info.title.text.strip,
       :image_id_ssm => @purlxml.image_ids,
       :source_id_ssi => source_id,
@@ -54,12 +30,27 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
       :use_and_reproduction_ss => use_and_reproduction
    }
 
+   pub_date=@modsxml.origin_info.dateCreated.text.strip
+
     if @purlxml.is_collection # if a collection, add the right format and grab the abstract as the description
       doc_hash[:format_ssim] = 'collection'
       doc_hash[:description_tsim] = @modsxml.abstract.text.strip
     else # if not a collection, lets dig into the other relevant fields, e.g. notes fields for descriptions and other notes; subject field, etc.
       formats=collect_values(@modsxml.related_item.physicalDescription.form)
       set_value_or_add(doc_hash,:format_ssim,formats.presence || ['unspecified'])
+
+      # determine collection druids and their titles and add to solr doc
+      unless @collection_names.blank?
+        doc_hash[:collection_ssim] = []
+        doc_hash[:is_member_of_ssim] = []
+        @collection_names.each { |coll_druid,coll_name|  
+          unless coll_druid == REVS_INSTITUTE_DRUID # skip the master Revs Institute Collection when adding collections we belong to
+            doc_hash[:is_member_of_ssim] << coll_druid
+            doc_hash[:collection_ssim] << clean_collection_name(coll_name)
+          end
+        }
+      end
+
       full_date=get_full_date(pub_date)
       if full_date # if the date field in MODs has a valid full date, extract the year into the single and multi-valued year fields
         doc_hash[:pub_year_isim]=[full_date.year.to_s]
@@ -184,7 +175,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
   # try to get the sourceID first from the MODs record, second from identity metadata 
   def source_id
     sourceid=@purlxml.source_id
-    return @modsxml.identifier.text.strip.presence || sourceid
+    return @modsxml.identifier.text.strip.presence || sourceid || ""
   end
 
   # pass in the doc_hash, the field name and the values; sets the value if none is set yet, or adds to it if its already there

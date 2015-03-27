@@ -2,20 +2,13 @@ require "rails_helper"
 
 describe RevsMapper do
   
-  before(:each) do
-    @pid='bb895tg4452'
-    @mods=Stanford::Mods::Record.new
-    @mods.from_nk_node(Nokogiri::XML(open('spec/fixtures/mods_xml.xml'),nil,'UTF-8'))
-    public_xml=Nokogiri::XML(open('spec/fixtures/purl_xml.xml'),nil,'UTF-8')
-    purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(public_xml)
-    @purl=purl_parser.parse()
-    @collection_names={'aa00bb0001'=>'Test Collection Name'}
-    @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)
-  end
-  
   it "should properly map revs object" do
+    setup('bb895tg4452','mods_xml.xml','purl_xml.xml')
     expected_doc_hash=
-      {
+      {       
+         :id =>@pid,
+         :collection_ssim => ["Test Collection Name"],
+         :is_member_of_ssim => ["aa00bb0001"],
          :title_tsi=>"aa'this is < a label with an & that will break XML unless it is escaped' is the label!",
          :format_ssim=>["color transparencies"],
          :image_id_ssm=>["2012-027NADI-1968-b2_8.3_0020.jp2"],
@@ -54,6 +47,44 @@ describe RevsMapper do
 
     expect(@indexer.map).to eq(expected_doc_hash)
   end
+
+  it "should properly determine object type from identityMetadata" do
+    
+    # doc=SolrDocBuilder.new('oo000oo0001',Object.new,Object.new,:mods=>@basic_mods_xml,:public_xml=>@public_xml_with_sourceid)
+    # doc.collection?.should be_falsey
+    #
+    # doc=SolrDocBuilder.new('oo000oo0001',Object.new,Object.new,:mods=>@basic_mods_xml,:public_xml=>@public_xml)
+    # doc.collection?.should be_falsey
+    #
+    # doc=SolrDocBuilder.new('oo000oo0001',Object.new,Object.new,:mods=>@basic_mods_xml,:public_xml=>@public_xml_for_set)
+    # doc.collection?.should be_truthy
+    #
+    # doc=SolrDocBuilder.new('oo000oo0001',Object.new,Object.new,:mods=>@basic_mods_xml,:public_xml=>@public_xml_for_collection)
+    # doc.collection?.should be_truthy
+        
+  end
+
+  it "should properly index a collection" do
   
+    # doc.collection?.should be_truthy
+    
+    setup('bc915dc7146','mods_basic_collection.xml','purl_xml_collection.xml')
+    
+    expected_doc_hash=
+      {
+         :id=>"bc915dc7146",
+         :title_tsi=>"The Road  Track Archive",
+         :description_tsim=>"The Road  Track Archive contains the library of files from Road  Track magazine's 65-year history.  The archive includes images, notes, performance data and other types of documents and research that supported production of the magazine over its history.",
+         :format_ssim=>"collection",
+         :image_id_ssm=>nil,
+         :source_id_ssi=>"",
+         :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
+         :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information."
+       }    
+       
+    expect(@indexer.map).to eq(expected_doc_hash)
+       
+  end
+    
 end
   

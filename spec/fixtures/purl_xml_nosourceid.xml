@@ -1,6 +1,5 @@
 <publicObject id="druid:bb895tg4452" published="2015-02-17T16:11:07-08:00">
 <identityMetadata>
-<sourceId source="sul">foo-1</sourceId>
 <objectId>druid:bb895tg4452</objectId>
 <objectCreator>DOR</objectCreator>
 <objectLabel>aa'this is < a label with an & that will break XML unless it is escaped' is the label!</objectLabel>

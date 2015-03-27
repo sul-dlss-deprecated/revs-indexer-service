@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+  <publicObject>
+    <identityMetadata>
+      <objectId>druid:bc915dc7146</objectId>
+      <objectType>collection</objectType>
+    </identityMetadata>
+    <rightsMetadata>
+    <copyright>
+    <human type="copyright">Courtesy of the Revs Institute for Automotive Research. All rights reserved unless otherwise indicated.</human>
+    </copyright>
+    <access type="discover">
+    <machine>
+    <world/>
+    </machine>
+    </access>
+    <access type="read">
+    <machine>
+    <group>stanford</group>
+    <world rule="no-download"/>
+    </machine>
+    </access>
+    <use>
+    <human type="useAndReproduction">Users must contact The Revs Institute for Automotive Research for re-use and reproduction information.</human>
+    </use>
+    </rightsMetadata>
+    <oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:srw_dc="info:srw/schema/1/dc-schema" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    </oai_dc:dc>
+    <rdf:RDF xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:hydra="http://projecthydra.org/ns/relations#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    </rdf:RDF>
+  </publicObject>

@@ -83,3 +83,37 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def basic_mods
+  @@basic_mods || File.read("spec/fixtures/mods_basic.xml")
+end
+
+def basic_mods_with_date(date)   
+   basic_mods+ "<originInfo><dateCreated>#{date}</dateCreated></originInfo></mods>"
+end
+
+def basic_expected_doc_hash
+  {
+     :title_tsi=>"This is a title",
+     :format_ssim=>["color transparencies"],
+     :image_id_ssm=>["some_file_name"],
+     :source_id_ssi=>"foo-2",
+     :type_of_resource_ssi=>"still image",
+     :genre_ssi=>"digital image",
+     :subjects_ssim=>["Automobile", "History"],
+     :description_tsim=>"Description",
+     :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
+     :use_and_reproduction_ss => "Users must contact the The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
+   }
+end
+
+def setup(pid,mods_fixture,purl_fixture)
+  @pid=pid
+  @mods=Stanford::Mods::Record.new
+  @mods.from_nk_node(Nokogiri::XML(open("spec/fixtures/#{mods_fixture}"),nil,'UTF-8'))
+  public_xml=Nokogiri::XML(open("spec/fixtures/#{purl_fixture}"),nil,'UTF-8')
+  purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(public_xml)
+  @purl=purl_parser.parse()
+  @collection_names={'aa00bb0001'=>'Test Collection Name'}
+  @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)    
+end
