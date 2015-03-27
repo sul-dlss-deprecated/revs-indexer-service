@@ -1,0 +1,15 @@
+notifications:
+  email: false
+  
+rvm:
+  - 2.1.2
+
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+
+sudo: false
+language: ruby
+cache: bundler
+
+script: bundle exec rake ci
