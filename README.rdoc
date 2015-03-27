@@ -31,6 +31,8 @@ rails c
 
 bundle exec rspec spec
 
+Should be run automatically via Travis-CI
+
 == Deploying
 
   bundle exec cap production deploy   # for production
