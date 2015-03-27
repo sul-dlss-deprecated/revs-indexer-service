@@ -84,8 +84,14 @@ RSpec.configure do |config|
 =end
 end
 
+def should_match(doc,expected_doc_hash)
+  setup('oo000oo0001','mods_xml.xml','purl_xml.xml')
+  @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own
+  expect(@indexer.map).to eq(expected_doc_hash)    
+end
+
 def basic_mods
-  @@basic_mods || File.read("spec/fixtures/mods_basic.xml")
+  File.read("spec/fixtures/mods_basic.xml")
 end
 
 def basic_mods_with_date(date)   
@@ -94,16 +100,20 @@ end
 
 def basic_expected_doc_hash
   {
+     :id => "oo000oo0001",
      :title_tsi=>"This is a title",
+     :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020.jp2"],
+     :is_member_of_ssim => ["aa00bb0001"],
+     :collection_ssim => ["Test Collection Name"],
      :format_ssim=>["color transparencies"],
-     :image_id_ssm=>["some_file_name"],
+     :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020.jp2"],
      :source_id_ssi=>"foo-2",
      :type_of_resource_ssi=>"still image",
      :genre_ssi=>"digital image",
      :subjects_ssim=>["Automobile", "History"],
      :description_tsim=>"Description",
      :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
-     :use_and_reproduction_ss => "Users must contact the The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
+     :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
    }
 end
 

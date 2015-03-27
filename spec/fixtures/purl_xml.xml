@@ -1,6 +1,6 @@
 <publicObject id="druid:bb895tg4452" published="2015-02-17T16:11:07-08:00">
 <identityMetadata>
-<sourceId source="sul">foo-1</sourceId>
+<sourceId source="sul">foo-purl</sourceId>
 <objectId>druid:bb895tg4452</objectId>
 <objectCreator>DOR</objectCreator>
 <objectLabel>aa'this is < a label with an & that will break XML unless it is escaped' is the label!</objectLabel>
@@ -34,7 +34,7 @@
 </machine>
 </access>
 <use>
-<human type="useAndReproduction">Users must contact The Revs Institute for Automotive Research for re-use and reproduction information.</human>
+<human type="useAndReproduction">Users must contact the The Revs Institute for Automotive Research for re-use and reproduction information.</human>
 </use>
 </rightsMetadata>
 <rdf:RDF xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:hydra="http://projecthydra.org/ns/relations#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">

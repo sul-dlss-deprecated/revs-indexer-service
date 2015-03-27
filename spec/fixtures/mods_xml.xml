@@ -79,14 +79,14 @@
     <title>aa'this is &lt; a label with an &amp; that will break XML unless it is escaped' is the label!</title>
   </titleInfo>
   <note displayLabel="Model Year" ID="model_year">1955 | 1956</note>
-  <identifier type="local" displayLabel="Revs ID">foo-1</identifier>
+  <identifier type="local" displayLabel="Revs ID">foo-mods</identifier>
   <note type="source note" ID="foo">123</note>
   <note type="source note" ID="bar">456</note>
   <note displayLabel="Description"> ERB Test: this is a description &gt; another description &lt; other stuff</note>
   <note displayLabel="Group or Class" ID="group">something in a group or class</note>
   <note displayLabel="Race Data" ID="race_data">Lots of race data</note>
   <note displayLabel="Metadata Sources" ID="metadata_sources">metadata sources go here</note>
-  <note displayLabel="Vehicle Markings" ID="vehicle_markings">vehicle markigns go here</note>
+  <note displayLabel="Vehicle Markings" ID="vehicle_markings">vehicle markings go here</note>
   <note type="source note" displayLabel="Institution Notes" ID="inst_notes">these are some institution notes  </note>
   <note type="source note" displayLabel="Production Notes" ID="prod_notes">prod notes when scanning</note>
   <note type="source note" displayLabel="Has More Metadata" ID="has_more_metadata">yes</note>

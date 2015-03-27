@@ -157,7 +157,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
     use_text= @purlxml.use_and_reproduction
     # if we still have the old usage text in the object, index it with the corrected text so it looks correct in the website at least
     if use_text == 'Users must contact the The Revs Institute for Automotive Research for re-use and reproduction information.'
-      use_text = 'Users must contact the The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.'
+      use_text = 'Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.'
     end
     return use_text
   end
