@@ -59,3 +59,4 @@ end
 
 gem 'squash_ruby', :require => 'squash/ruby'
 gem 'squash_rails', :require => 'squash/rails'
+gem 'coveralls', require: false
