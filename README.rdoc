@@ -1,5 +1,7 @@
 =RevsIndexerSevice
 
+{<img src="https://travis-ci.org/sul-dlss/revs-indexer-service.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/sul-dlss/revs-indexer-service]
+
 Code to harvest Revs metadata from DOR and index it into Solr for the Revs Digital Library application
 
 == Installing
