@@ -90,7 +90,7 @@ end
 def should_match(doc,expected_doc_hash)
   setup('oo000oo0001','mods_xml.xml','purl_xml.xml')
   @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own
-  expect(@indexer.map).to eq(expected_doc_hash)    
+  expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)    
 end
 
 def basic_mods
@@ -125,7 +125,7 @@ def setup(pid,mods_fixture,purl_fixture)
   @mods=Stanford::Mods::Record.new
   @mods.from_nk_node(Nokogiri::XML(open("spec/fixtures/#{mods_fixture}"),nil,'UTF-8'))
   public_xml=Nokogiri::XML(open("spec/fixtures/#{purl_fixture}"),nil,'UTF-8')
-  purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(public_xml)
+  purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(pid,public_xml)
   @purl=purl_parser.parse()
   @collection_names={'aa00bb0001'=>'Test Collection Name'}
   @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)    

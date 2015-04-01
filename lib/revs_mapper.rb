@@ -16,7 +16,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
 
   # Create a Hash representing a Solr doc, with all MODS related fields populated.
   # @return [Hash] Hash representing the Solr document
-  def map
+  def convert_to_solr_doc
 
     # basic fields
     doc_hash = { 

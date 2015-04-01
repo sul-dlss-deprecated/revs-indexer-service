@@ -47,7 +47,7 @@ describe RevsMapper do
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
        }
 
-    expect(@indexer.map).to eq(expected_doc_hash)
+    expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
     
   end
 
@@ -82,7 +82,7 @@ describe RevsMapper do
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information."
        }    
        
-    expect(@indexer.map).to eq(expected_doc_hash)
+    expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
        
   end
 
@@ -106,7 +106,7 @@ describe RevsMapper do
          :source_id_ssi => "foo-purl",
        }
       
-      expect(@indexer.map).to eq(expected_doc_hash)
+      expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
          
   end
 
