@@ -2,7 +2,7 @@ set :application, "revs-indexer-service"
 set :repo_url, "https://github.com/sul-dlss/revs-indexer-service"
 set :user, ask("User", 'enter in the app username')
 
-set :home_directory, "/home/#{fetch(:user)}"
+set :home_directory, "/opt/app/#{fetch(:user)}"
 set :deploy_to, "#{fetch(:home_directory)}/#{fetch(:application)}"
 
 set :stages, %W(staging development production)
