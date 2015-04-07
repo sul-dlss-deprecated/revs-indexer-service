@@ -1,6 +1,10 @@
 {
   "RSpec": {
     "coverage": {
+      "/Users/petucket/Sites/development/revs-indexer-service/app/helpers/about_helper.rb": [
+        1,
+        null
+      ],
       "/Users/petucket/Sites/development/revs-indexer-service/app/helpers/application_helper.rb": [
         1,
         null
@@ -211,6 +215,6 @@
         null
       ]
     },
-    "timestamp": 1427920114
+    "timestamp": 1428435603
   }
 }

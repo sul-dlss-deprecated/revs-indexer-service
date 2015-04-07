@@ -36,4 +36,4 @@ namespace :deploy do
 
 end
 
-#before 'deploy:compile_assets', 'squash:write_revision'
+before 'deploy:compile_assets', 'squash:write_revision'

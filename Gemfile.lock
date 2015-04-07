@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    about_page (0.3.1)
+      grit
+      rails (>= 3.2)
     actionmailer (4.1.10)
       actionpack (= 4.1.10)
       actionview (= 4.1.10)
@@ -89,10 +92,14 @@ GEM
     execjs (2.4.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    grit (2.0.0)
+      diff-lcs (>= 1.1.2)
+      mime-types (>= 1.15)
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
+    is_it_working (1.0.11)
     iso-639 (0.2.5)
     jbuilder (2.2.12)
       activesupport (>= 3.0.0, < 5)
@@ -243,6 +250,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  about_page
   base_indexer
   capistrano (~> 3.0)
   capistrano-bundler
@@ -251,6 +259,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   coveralls
   equivalent-xml
+  is_it_working
   jbuilder (~> 2.0)
   jquery-rails
   lyberteam-capistrano-devel (~> 3)

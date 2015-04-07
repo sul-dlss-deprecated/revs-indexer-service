@@ -6,6 +6,8 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+VERSION = File.read('VERSION')
+
 module RevsIndexerService
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -21,9 +23,16 @@ module RevsIndexerService
     # config.i18n.default_locale = :de
     
     config.autoload_paths += %W(#{config.root}/lib)
+    config.version = VERSION # read from VERSION file at base of website
+    config.app_name = 'Revs-Indexing-Service'
     
     config.solr_config_file_path = "#{config.root}/config/solr.yml"
     DiscoveryIndexer::PURL_DEFAULT='http://purl.stanford.edu/'
     
   end
 end
+
+Squash::Ruby.configure :api_host => 'https://sul-squash-prod.stanford.edu',
+                       :api_key => 'a55b9c6c-d6b2-45bc-9955-92cb7b53bedb',
+                       :disabled => (Rails.env.development? || Rails.env.test?),
+                       :revision_file => 'REVISION'
