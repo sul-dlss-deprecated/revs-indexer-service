@@ -2,11 +2,6 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  root 'about#index'
-  get 'about/version' => 'about#version'
-  mount AboutPage::Engine => '/about(.:format)' # Or whever you want to access the about page
-
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -56,6 +51,6 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   
-  mount BaseIndexer::Engine, at: '/items'
+  mount BaseIndexer::Engine, at: '/'
 
 end

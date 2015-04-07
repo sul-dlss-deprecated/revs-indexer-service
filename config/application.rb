@@ -23,7 +23,7 @@ module RevsIndexerService
     # config.i18n.default_locale = :de
     
     config.autoload_paths += %W(#{config.root}/lib)
-    config.version = VERSION # read from VERSION file at base of website
+    config.app_version = VERSION # read from VERSION file at base of website
     config.app_name = 'Revs-Indexing-Service'
     
     config.solr_config_file_path = "#{config.root}/config/solr.yml"
