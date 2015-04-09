@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'base_indexer'
 gem 'revs-utils'
+gem 'discovery-indexer', '>= 0.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.10'
