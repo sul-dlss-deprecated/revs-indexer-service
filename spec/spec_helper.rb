@@ -105,11 +105,10 @@ def basic_expected_doc_hash
   {
      :id => "oo000oo0001",
      :title_tsi=>"This is a title",
-     :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020.jp2"],
      :is_member_of_ssim => ["aa00bb0001"],
      :collection_ssim => ["Test Collection Name"],
      :format_ssim=>["color transparencies"],
-     :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020.jp2"],
+     :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020"],
      :source_id_ssi=>"foo-2",
      :type_of_resource_ssi=>"still image",
      :genre_ssi=>"digital image",

@@ -24,7 +24,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
       # title fields
       :id => @druid, 
       :title_tsi => @modsxml.title_info.title.text.strip,
-      :image_id_ssm => @purlxml.image_ids,
+      :image_id_ssm => strip_extensions(@purlxml.image_ids),
       :source_id_ssi => source_id,
       :copyright_ss => copyright,
       :use_and_reproduction_ss => use_and_reproduction
@@ -189,7 +189,14 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
     end
     return doc_hash
   end    
-   
+  
+  # strip extensions of all files passed in 
+  def strip_extensions(filenames)
+    return nil if filenames.blank?
+    filenames=[filenames] unless filenames.class == Array
+    filenames.collect {|filename|  File.basename(filename,File.extname(filename))} # strip off extensions
+  end
+  
    # if the node exists, get its vakue, otherwise return blank string 
   def get_value(value)
     value.first ? value.first.text.strip : '' 
