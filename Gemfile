@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'base_indexer'
 gem 'revs-utils'
 gem 'discovery-indexer', '>= 0.8'
+gem 'dor-fetcher', '>= 1.1.1', :source => 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.10'

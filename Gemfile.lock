@@ -27,6 +27,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     arel (5.0.1.20140414130214)
     base_indexer (0.3.1)
       discovery-indexer
@@ -83,6 +84,9 @@ GEM
     docile (1.1.5)
     domain_name (0.5.23)
       unf (>= 0.0.5, < 1.0.0)
+    dor-fetcher (1.1.7)
+      addressable
+      rest-client
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
@@ -251,6 +255,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   coveralls
   discovery-indexer (>= 0.8)
+  dor-fetcher (>= 1.1.1)!
   equivalent-xml
   jbuilder (~> 2.0)
   jquery-rails
