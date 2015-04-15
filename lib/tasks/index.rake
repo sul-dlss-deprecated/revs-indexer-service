@@ -206,3 +206,58 @@ task :reindex_errors => :environment do |t, args|
   puts "Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
   
 end
+
+desc 'Delete the druids specified in the supplied text file (one druid per line, header not necessary).  Be careful!  It will delete from all targets.'
+#Run me: rake delete_druids RAILS_ENV=production file=druid_list.txt
+# Examples:
+task :delete_druids => :environment do |t, args|
+
+  file_path = ENV['file'] # must specify previous indexing log file to index from
+  
+  raise 'You must specify a druid file.' if file_path.blank?
+  raise 'File not found.' unless File.readable? file_path
+
+  print "Are you sure you wish to delete all of the druids from all targets specified in #{file_path}? (y/n) "
+  STDOUT.flush  
+  answer=STDIN.gets.chomp
+  
+  raise 'STOP!' unless (answer && ['y','yes'].include?(answer.downcase))
+  
+  start_time=Time.now
+  
+  errors=0
+  indexed=0
+  
+  puts "** Deleting druids from #{file_path} in all targets."
+  puts "Deleting started at #{start_time}"
+
+  indexer = BaseIndexer::MainIndexerEngine.new
+
+  counter=0
+
+  IO.readlines(file_path).each do |line|
+
+     downcased_line=line.downcase
+     druid=downcased_line.scan(/[a-z][a-z][0-9][0-9][0-9][a-z][a-z][0-9][0-9][0-9][0-9]/).first
+  
+     unless druid.nil?
+       counter+=1
+    
+        begin
+          with_retries(:max_tries => 5, :base_sleep_seconds => 3, :max_sleep_seconds => 60) do
+            indexer.delete druid
+            puts "#{counter}: #{druid}"
+            indexed += 1
+          end
+        rescue  => e
+          puts "ERROR: Failed to delete #{druid}: #{e.message}"
+          errors += 1
+        end
+     end    
+  end
+  
+  puts "Objects deleted: #{indexed}"
+  puts "ERRORS Encountered, #{errors} objects not deleted" if errors > 0
+  puts "Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  
+end

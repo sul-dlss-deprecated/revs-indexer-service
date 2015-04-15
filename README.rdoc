@@ -55,6 +55,8 @@ rails c
   # to just perform an index of a document:
   indexer.index(pid,['revs']) # do the full indexing (including posting to solr), the 'revs' indicates the configured solr url target in the solr.yml config file 
   
+  indexer.delete pid # delete the druid (from all targets!! so be careful)
+  
   # to manually fetch xml and then test out mapping
   purl=indexer.read_purl(pid) # will go out to actual purl page and grab full public xml
   mods=indexer.read_mods(pid) # will go out to actual purl page and grab full mods
