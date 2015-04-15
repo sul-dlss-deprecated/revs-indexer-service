@@ -1,5 +1,15 @@
 require 'retries'
 
+def log(logger,message,log_type=:info)
+  case log_type
+    when :error
+      logger.error(message)
+    else
+      logger.info(message)
+  end
+  puts message
+end
+
 desc 'Index a specific list of druids from a pre-assembly log YAML file (or a remediate log file).  Specify target to index into and log file to index from.'
 #Run me: rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=preassembly 
 # Examples:
@@ -23,6 +33,9 @@ task :log_indexer => :environment do |t, args|
     log_completed=:remediate_completed
   end
   
+  output_log_file_name="#{Rails.root}/log/#{File.basename(log_file_path,File.extname(log_file_path))}_indexer_#{Time.now.strftime('%Y%m%d-%H%M%S')}.log"
+  my_logger=Logger.new(output_log_file_name) # set up a new log file
+  
   start_time=Time.now
   
   errors=0
@@ -33,8 +46,8 @@ task :log_indexer => :environment do |t, args|
 
   solr_server=BaseIndexer.solr_configuration_class_name.constantize.instance.get_configuration_hash[target]['url']
   
-  puts "** Indexing #{druids.size} druids from #{log_file_path} into solr server #{solr_server} (target=#{target}).  Log file is of type #{log_type}."
-  puts "Indexing started at #{start_time}"
+  log my_logger,"** Indexing #{druids.size} druids from #{log_file_path} into solr server #{solr_server} (target=#{target}).  Log file is of type #{log_type}."
+  log my_logger,"Indexing started at #{start_time}"
 
   indexer = BaseIndexer::MainIndexerEngine.new
 
@@ -48,19 +61,20 @@ task :log_indexer => :environment do |t, args|
     begin
       with_retries(:max_tries => 5, :base_sleep_seconds => 3, :max_sleep_seconds => 60) do
         indexer.index(druid,[target]) 
-        puts "#{counter} of #{druids.size}: #{druid}"
+        log my_logger,"#{counter} of #{druids.size}: #{druid}"
         indexed += 1
       end
     rescue  => e
-      puts "ERROR: Failed to index #{druid}: #{e.message}"
+      log my_logger,"ERROR: Failed to index #{druid}: #{e.message}",:error
       errors += 1
     end
 
   end
   
-  puts "Objects indexed: #{indexed} out of #{druids.size}"
-  puts "ERRORS Encountered, #{errors} objects not indexed" if errors > 0
-  puts "Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  log my_logger,"Objects indexed: #{indexed} out of #{druids.size}"
+  log(my_logger,"ERRORS Encountered, #{errors} objects not indexed") if errors > 0
+  log my_logger,"Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  puts "Logged output at #{output_log_file_name}"
   
 end
   
@@ -88,12 +102,12 @@ task :index => :environment do |t, args|
 end
 
 desc 'Index an entire collection, including the collection itself and all of its members.  Specify target to index into and collection druid to index.'
-#Run me: rake index_collection RAILS_ENV=production target=revs_prod collection_druid=oo000oo0001
+#Run me: rake collection_indexer RAILS_ENV=production target=revs_prod collection_druid=oo000oo0001
 # Examples:
-task :index_collection => :environment do |t, args|
+task :collection_indexer => :environment do |t, args|
 
   target = ENV['target'] # must pass in the target so specify solr core to index into
-  collection_druid = ENV['druid'] 
+  collection_druid = ENV['collection_druid'] 
   
   raise 'You must specify a target and collection druid.' if target.blank? || collection_druid.blank?
   
@@ -102,11 +116,14 @@ task :index_collection => :environment do |t, args|
   raise 'Target not found.' if target_config.nil?
 
   solr_server=BaseIndexer.solr_configuration_class_name.constantize.instance.get_configuration_hash[target]['url']
-  
-  puts "** Indexing collection #{collection_druid} druid and all of its members into solr server #{solr_server} (target=#{target})."
 
+  output_log_file_name="#{Rails.root}/log/collection_#{collection_druid}_indexer_#{Time.now.strftime('%Y%m%d-%H%M%S')}.log"
+  my_logger=Logger.new(output_log_file_name) # set up a new log file
+    
+  log my_logger,"** Indexing collection #{collection_druid} druid and all of its members into solr server #{solr_server} (target=#{target})."
+ 
   start_time=Time.now
-  puts "Indexing started at #{start_time}"
+  log my_logger,"Indexing started at #{start_time}"
 
   indexer = BaseIndexer::MainIndexerEngine.new
 
@@ -115,10 +132,11 @@ task :index_collection => :environment do |t, args|
   collection_druid=collection_druid.gsub('druid:','')
   
   indexer.index(collection_druid,[target]) 
-
+  log my_logger,"Indexed collection: #{collection_druid}"
+  
   druids = df.druid_array(df.get_collection(collection_druid, {}))
 
-  puts "** Found #{druids.size} members of the collection"
+  log my_logger,"** Found #{druids.size} members of the collection"
 
   counter=0
   indexed=0
@@ -132,26 +150,27 @@ task :index_collection => :environment do |t, args|
     begin
       with_retries(:max_tries => 5, :base_sleep_seconds => 3, :max_sleep_seconds => 60) do
         indexer.index(druid,[target]) 
-        puts "#{counter} of #{druids.size}: #{druid}"
+        log my_logger,"#{counter} of #{druids.size}: #{druid}"
         indexed += 1
       end
     rescue  => e
-      puts "ERROR: Failed to index #{druid}: #{e.message}"
+      log my_logger,"ERROR: Failed to index #{druid}: #{e.message}",:error
       errors += 1
     end
 
   end
   
-  puts "Objects indexed: #{indexed} out of #{druids.size}"
-  puts "ERRORS Encountered, #{errors} objects not indexed" if errors > 0
-  puts "Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  log my_logger,"Objects indexed: #{indexed} out of #{druids.size} + 1 collection druid"
+  log(my_logger,"ERRORS Encountered, #{errors} objects not indexed") if errors > 0
+  log my_logger,"Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  puts "Logged output at #{output_log_file_name}"
   
 end  
 
-desc 'ReIndex jsut the druids that errored out from a previous batch index run. Specify target to index into and batch errored log file to index from.'
-#Run me: rake reindex_errors RAILS_ENV=production target=revs_prod file=nohup.out
+desc 'ReIndex just the druids that errored out from a previous batch index run. Specify target to index into and batch errored log file to index from.'
+#Run me: rake reindexer RAILS_ENV=production target=revs_prod file=./log/index.log
 # Examples:
-task :reindex_errors => :environment do |t, args|
+task :reindexer => :environment do |t, args|
 
   target = ENV['target'] # must pass in the target so specify solr core to index into
   file_path = ENV['file'] # must specify previous indexing log file to index from
@@ -169,9 +188,12 @@ task :reindex_errors => :environment do |t, args|
   indexed=0
 
   solr_server=BaseIndexer.solr_configuration_class_name.constantize.instance.get_configuration_hash[target]['url']
-  
-  puts "** Indexing errored out druids from #{file_path} into solr server #{solr_server} (target=#{target})."
-  puts "Indexing started at #{start_time}"
+
+  output_log_file_name="#{Rails.root}/log/#{File.basename(file_path,File.extname(file_path))}_reindex_#{Time.now.strftime('%Y%m%d-%H%M%S')}.log"
+  my_logger=Logger.new(output_log_file_name) # set up a new log file
+    
+  log my_logger,"** Indexing errored out druids from #{file_path} into solr server #{solr_server} (target=#{target})."
+  log my_logger,"Indexing started at #{start_time}"
 
   indexer = BaseIndexer::MainIndexerEngine.new
 
@@ -183,27 +205,29 @@ task :reindex_errors => :environment do |t, args|
   
     if downcased_line.include? 'error'
       druid=downcased_line.scan(/[a-z][a-z][0-9][0-9][0-9][a-z][a-z][0-9][0-9][0-9][0-9]/).first
-  
-      counter+=1
-    
-      begin
-        with_retries(:max_tries => 5, :base_sleep_seconds => 3, :max_sleep_seconds => 60) do
-          indexer.index(druid,[target]) 
-          puts "#{counter}: #{druid}"
-          indexed += 1
+      
+      unless druid.blank?    
+        begin
+          counter+=1
+          with_retries(:max_tries => 5, :base_sleep_seconds => 3, :max_sleep_seconds => 60) do
+            indexer.index(druid,[target])
+            log my_logger,"#{counter}: #{druid}"
+            indexed += 1
+          end
+        rescue  => e
+          log my_logger,"ERROR: Failed to index #{druid}: #{e.message}",:error
+          errors += 1
         end
-      rescue  => e
-        puts "ERROR: Failed to index #{druid}: #{e.message}"
-        errors += 1
       end
-    
+      
     end
     
   end
   
-  puts "Objects indexed: #{indexed}"
-  puts "ERRORS Encountered, #{errors} objects not indexed" if errors > 0
-  puts "Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  log my_logger,"Objects indexed: #{indexed}"
+  log(my_logger,"ERRORS Encountered, #{errors} objects not indexed") if errors > 0
+  log my_logger,"Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  puts "Logged output at #{output_log_file_name}"
   
 end
 
@@ -223,13 +247,16 @@ task :delete_druids => :environment do |t, args|
   
   raise 'STOP!' unless (answer && ['y','yes'].include?(answer.downcase))
   
+  output_log_file_name="#{Rails.root}/log/#{File.basename(file_path,File.extname(file_path))}_delete_#{Time.now.strftime('%Y%m%d-%H%M%S')}.log"
+  my_logger=Logger.new(output_log_file_name) # set up a new log file
+  
   start_time=Time.now
   
   errors=0
   indexed=0
   
-  puts "** Deleting druids from #{file_path} in all targets."
-  puts "Deleting started at #{start_time}"
+  log my_logger,"** Deleting druids from #{file_path} in all targets."
+  log my_logger,"Deleting started at #{start_time}"
 
   indexer = BaseIndexer::MainIndexerEngine.new
 
@@ -240,24 +267,24 @@ task :delete_druids => :environment do |t, args|
      downcased_line=line.downcase
      druid=downcased_line.scan(/[a-z][a-z][0-9][0-9][0-9][a-z][a-z][0-9][0-9][0-9][0-9]/).first
   
-     unless druid.nil?
+     unless druid.blank?
        counter+=1
     
         begin
           with_retries(:max_tries => 5, :base_sleep_seconds => 3, :max_sleep_seconds => 60) do
             indexer.delete druid
-            puts "#{counter}: #{druid}"
+            log my_logger,"#{counter}: #{druid}"
             indexed += 1
           end
         rescue  => e
-          puts "ERROR: Failed to delete #{druid}: #{e.message}"
+          log my_logger,"ERROR: Failed to delete #{druid}: #{e.message}",:error
           errors += 1
         end
      end    
   end
   
-  puts "Objects deleted: #{indexed}"
-  puts "ERRORS Encountered, #{errors} objects not deleted" if errors > 0
-  puts "Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
+  log my_logger,"Objects deleted: #{indexed}"
+  log(my_logger,"ERRORS Encountered, #{errors} objects not deleted",:error) if errors > 0
+  log my_logger,"Completed at #{Time.now}, total time was #{'%.2f' % ((Time.now - start_time)/60.0)} minutes"
   
 end

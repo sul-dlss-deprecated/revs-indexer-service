@@ -15,6 +15,10 @@ Code to harvest Revs metadata from DOR and index it into Solr for the Revs Digit
 
 == Rake Tasks For Indexing Druids
 
+All rake tasks that perform batch indexing will generate log files in the "log" folder within the app itself.  You can tail the log file to watch the progress.  The
+log file is also useful since you can pass it to the "reindexer" rake task to retry just the errored out druids.  The name of the log file will depend on which
+rake task you are running, and will be timestamped to be unique.
+
 === Index a single druid:
 
 rake index RAILS_ENV=production target=revs_prod druid=oo000oo0001
@@ -22,26 +26,22 @@ rake index RAILS_ENV=production target=revs_prod druid=oo000oo0001
 === Index a list of druids from a pre-assembly run or a remeditaion run:
 
 rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=preassembly  # preassembly run
-nohup rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=preassembly &  # for a long running process, nohup it, you will also get an out.log file for reindexing errored out druids if needed
+nohup rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=preassembly &  # for a long running process, which will be most runs that have more than a few dozen druids, nohup it
 
 rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=remediate # remediation run 
 
-tail nohup.out # for a nohup task, tail the log 
-
 === Index an entire collection, including the collection itself, along with all of its members (be sure to check the dor-fetcher-url parameter in the Rails environment you are running under to be sure it is connecting where you expect):
 
-rake index_collection RAILS_ENV=production target=revs_prod collection_druid=oo000oo0001
-nohup rake index_collection RAILS_ENV=production target=revs_prod collection_druid=oo000oo0001 &   # for a long running process, nohup it, you will also get an out.log file for reindexing errored out druids if needed
+rake collection_indexer RAILS_ENV=production target=revs_prod collection_druid=oo000oo0001
+nohup rake collection_indexer RAILS_ENV=production target=revs_prod collection_druid=oo000oo0001 &   # for a long running process, e.g. a collection with more than a few dozen druids, nohup it
 
 === Re-Index Just Errored Out Items
 
-If you used nonup or you redirected output to a file when indexing an entire collection or a specific list of druids, you can re-run indexing with that nohup file so it can try and reindex only the items that errored out.
+If you had errors when indexing from a preassembly/remediation log or from indexing an entire collection, you can re-run the errored out druids only with the log file.  All log files are kept in the log folder in the revs-indexer-service app.
 
-rake reindex_errors RAILS_ENV=production target=revs_prod file=nohup.out
+rake reindexer RAILS_ENV=production target=revs_prod file=log/logfile.log
 
-You could also nohup the output of this file if you wanted, but be sure to rediect to a different filename.
-
-nohup rake reindex_errors RAILS_ENV=production target=revs_prod file=nohup.out > reindex.out 2>&1&
+nohup rake reindexer RAILS_ENV=production target=revs_prod file=log/logfile.log & # probably no need to nohup unless there were alot of errors
 
 
 
