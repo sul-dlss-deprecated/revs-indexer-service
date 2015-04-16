@@ -27,9 +27,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    addressable (2.3.6)
+    addressable (2.3.8)
     arel (5.0.1.20140414130214)
-    base_indexer (0.3.1)
+    base_indexer (0.3.2)
       discovery-indexer
       rails (~> 4.1, >= 4.1.9)
     builder (3.2.2)
@@ -63,7 +63,7 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1)
+    coffee-script-source (1.9.1.1)
     colorize (0.7.5)
     countries (0.9.2)
       currencies (>= 0.4.0)
@@ -75,14 +75,14 @@ GEM
       thor (~> 0.19.1)
     currencies (0.4.2)
     diff-lcs (1.2.5)
-    discovery-indexer (0.8)
+    discovery-indexer (0.9.1)
       nokogiri
       rest-client
       retries
       rsolr
       stanford-mods
     docile (1.1.5)
-    domain_name (0.5.23)
+    domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     dor-fetcher (1.1.7)
       addressable
@@ -90,7 +90,7 @@ GEM
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
-    execjs (2.5.0)
+    execjs (2.5.2)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     hike (1.2.3)
@@ -98,7 +98,7 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     iso-639 (0.2.5)
-    jbuilder (2.2.12)
+    jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (3.1.2)
@@ -116,7 +116,7 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     mods (2.0.3)
       iso-639
       nokogiri
@@ -163,7 +163,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     retries (0.0.5)
-    revs-utils (2.0.7)
+    revs-utils (2.0.8)
       actionpack (~> 4.1.6)
       chronic
       countries (= 0.9.2)
