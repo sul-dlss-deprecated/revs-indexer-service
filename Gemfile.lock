@@ -29,9 +29,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (5.0.1.20140414130214)
-    base_indexer (0.3.2)
+    base_indexer (0.3.4)
       discovery-indexer
       rails (~> 4.1, >= 4.1.9)
+      retries
     builder (3.2.2)
     bundler-audit (0.3.1)
       bundler (~> 1.2)
@@ -248,7 +249,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  base_indexer
+  base_indexer (>= 0.3.3)
   capistrano (~> 3.0)
   capistrano-bundler
   capistrano-rails
