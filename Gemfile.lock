@@ -29,7 +29,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (5.0.1.20140414130214)
-    base_indexer (0.3.4)
+    base_indexer (0.3.5)
       discovery-indexer
       rails (~> 4.1, >= 4.1.9)
       retries
