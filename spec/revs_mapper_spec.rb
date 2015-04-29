@@ -86,6 +86,13 @@ describe RevsMapper do
        
   end
 
+  it "should throw an exception if no images are found" do
+    
+    setup('oo000oo0001','mods_minimal.xml','purl_xml_missing_image.xml')
+    expect{@indexer.convert_to_solr_doc}.to raise_error
+    
+  end
+  
   it "should properly set the sourceID value from identityMetadata if it does not exist in MODs" do
 
     setup('oo000oo0001','mods_minimal.xml','purl_xml.xml')

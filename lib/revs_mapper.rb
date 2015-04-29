@@ -140,6 +140,8 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
         end
       end
     end
+    
+    raise 'no image found' if (!@purlxml.is_collection && doc_hash[:image_id_ssm].nil?)
         
     doc_hash
   end
