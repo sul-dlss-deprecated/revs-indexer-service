@@ -8,7 +8,7 @@ set :deploy_to, "#{fetch(:home_directory)}/#{fetch(:application)}"
 set :stages, %W(staging development production)
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/solr.yml}
+set :linked_files, %w{config/database.yml config/solr.yml config/secrets.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle}
