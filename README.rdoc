@@ -9,8 +9,7 @@ Code to harvest Revs metadata from DOR and index it into Solr for the Revs Digit
 == Installing
 
 * checkout code
-* cp config/solr.yml.example config/solr.yml
-* cp config/secrets.yml.example config/secrets.yml
+* rake config
 * edit config/solr.yml file to add in actual solr URLs for each target
 * bundle install
 
