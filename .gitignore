@@ -8,6 +8,8 @@
 /.bundle
 config/*.yml
 coverage/*
+.last_run.json
+.resultset.json
 
 .rake_tasks*
 

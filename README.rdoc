@@ -65,7 +65,7 @@ rails c
   collection_names=indexer.get_collection_names(purl.collection_druids) # will get collections this pid belongs to
 
   mapper = RevsMapper.new(pid,mods,purl,collection_names)
-  puts mapper.map # will perform a mapping to solr_doc
+  puts mapper.convert_to_solr_doc # will perform a mapping to solr_doc
 
 == Running tests
 

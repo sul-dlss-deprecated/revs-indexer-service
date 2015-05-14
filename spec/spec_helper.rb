@@ -115,7 +115,8 @@ def basic_expected_doc_hash
      :subjects_ssim=>["Automobile", "History"],
      :description_tsim=>"Description",
      :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
-     :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
+     :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.",
+     :archive_ssi => "Revs Institute Archive"
    }
 end
 
@@ -126,6 +127,6 @@ def setup(pid,mods_fixture,purl_fixture)
   public_xml=Nokogiri::XML(open("spec/fixtures/#{purl_fixture}"),nil,'UTF-8')
   purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(pid,public_xml)
   @purl=purl_parser.parse()
-  @collection_names={'aa00bb0001'=>'Test Collection Name'}
+  @collection_names={'aa00bb0001'=>'Test Collection Name','nt028fd5773'=>'Revs Institute Archive'}
   @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)    
 end

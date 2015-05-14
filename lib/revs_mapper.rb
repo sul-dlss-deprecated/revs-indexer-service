@@ -4,7 +4,9 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
 
   include Revs::Utils
 
-  REVS_INSTITUTE_DRUID='nt028fd5773' # the druid of the master Revs Institute Collection -- will not be added to each item record when indexed
+  ARCHIVE_DRUIDS={:revs=>'nt028fd5773',:roadandtrack=>'mr163sv5231'}  # a hash of druids of the master archives, keys are arbitrary but druids must match the druids in DOR
+                                                                      #  these druids will be used to set the archive name in each document
+  MULTI_COLLECTION_ARCHIVES=[:revs] # list the keys from the has above for any archives that contain multiple collections (like Revs), for which each item in DOR belongs to both a parent collection and the master archive collection ... since we do not want to also add the master archive name as another collection druid to each record, we skip them
   
   # @druid   ==  druid pid
   # @modsxml == Stanford::Mods::Record class object
@@ -32,6 +34,13 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
 
    pub_date=@modsxml.origin_info.dateCreated.text.strip
 
+   # add archive to each solr doc
+   @collection_names.each { |coll_druid,coll_name|  
+     if ARCHIVE_DRUIDS.has_value?(coll_druid) # if this is an archive level collection, add it
+       doc_hash[:archive_ssi] = clean_collection_name(coll_name)
+     end
+   }   
+   
     if @purlxml.is_collection # if a collection, add the right format and grab the abstract as the description
       doc_hash[:format_ssim] = 'collection'
       doc_hash[:description_tsim] = @modsxml.abstract.text.strip
@@ -44,12 +53,12 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
         doc_hash[:collection_ssim] = []
         doc_hash[:is_member_of_ssim] = []
         @collection_names.each { |coll_druid,coll_name|  
-          unless coll_druid == REVS_INSTITUTE_DRUID # skip the master Revs Institute Collection when adding collections we belong to
+          unless (ARCHIVE_DRUIDS.has_value?(coll_druid) && MULTI_COLLECTION_ARCHIVES.include?(ARCHIVE_DRUIDS.key(coll_druid))) # skip the master Revs Institute Collection when adding collections we belong to
             doc_hash[:is_member_of_ssim] << coll_druid
             doc_hash[:collection_ssim] << clean_collection_name(coll_name)
           end
         }
-      end
+      end   
 
       full_date=get_full_date(pub_date)
       if full_date # if the date field in MODs has a valid full date, extract the year into the single and multi-valued year fields

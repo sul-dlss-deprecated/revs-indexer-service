@@ -44,7 +44,8 @@ describe RevsMapper do
          :people_ssim => ["Another personal name", "First personal name"],
          :visibility_isi => 0,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
-         :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
+         :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.",
+         :archive_ssi => "Revs Institute Archive"
        }
 
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
@@ -79,7 +80,8 @@ describe RevsMapper do
          :image_id_ssm=>nil,
          :source_id_ssi=>"",
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
-         :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information."
+         :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information.",
+         :archive_ssi => "Revs Institute Archive"
        }    
        
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
@@ -111,6 +113,7 @@ describe RevsMapper do
          :is_member_of_ssim => ["aa00bb0001"],
          :collection_ssim => ["Test Collection Name"],
          :source_id_ssi => "foo-purl",
+         :archive_ssi => "Revs Institute Archive"
        }
       
       expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
