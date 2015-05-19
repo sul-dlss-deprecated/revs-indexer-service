@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'base_indexer', '>=0.3.6'
+gem 'base_indexer', '>=0.3.8'
 gem 'revs-utils'
 gem 'discovery-indexer', '>= 0.8'
 gem 'dor-fetcher', '>= 1.1.1', :source => 'https://rubygems.org'

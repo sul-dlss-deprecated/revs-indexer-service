@@ -6,7 +6,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
 
   ARCHIVE_DRUIDS={:revs=>'nt028fd5773',:roadandtrack=>'mr163sv5231'}  # a hash of druids of the master archives, keys are arbitrary but druids must match the druids in DOR
                                                                       #  these druids will be used to set the archive name in each document
-  MULTI_COLLECTION_ARCHIVES=[:revs] # list the keys from the has above for any archives that contain multiple collections (like Revs), for which each item in DOR belongs to both a parent collection and the master archive collection ... since we do not want to also add the master archive name as another collection druid to each record, we skip them
+  MULTI_COLLECTION_ARCHIVES=[:revs] # list the keys from the hash above for any archives that contain multiple collections (like Revs), for which each item in DOR belongs to both a parent collection and the master archive collection ... since we do not want to also add the master archive name as another collection druid to each record, we skip them
   
   # @druid   ==  druid pid
   # @modsxml == Stanford::Mods::Record class object
