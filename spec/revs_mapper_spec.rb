@@ -66,10 +66,10 @@ describe RevsMapper do
   end
 
   it "should properly index a collection" do
-  
-    # doc.collection?.should be_truthy
-    
+      
     setup('bc915dc7146','mods_basic_collection.xml','purl_xml_collection.xml')
+    
+    expect(@purl.is_collection).to be_truthy
     
     expected_doc_hash=
       {
@@ -88,6 +88,39 @@ describe RevsMapper do
        
   end
 
+  it "should generate the correct archive_ssi field for road & track" do
+    
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'mr163sv5231'=>'Road & Track Archive'})
+    doc=basic_mods
+    @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
+    expected_doc_hash=basic_expected_doc_hash
+    expected_doc_hash[:archive_ssi]='Road & Track Archive'
+    expected_doc_hash[:collection_ssim]=['Road & Track Archive']
+    expected_doc_hash[:is_member_of_ssim]=['mr163sv5231']
+    expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
+
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>'Test Collection Name','mr163sv5231'=>'Road & Track Archive'})
+    doc=basic_mods
+    @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
+    expected_doc_hash=basic_expected_doc_hash
+    expected_doc_hash[:archive_ssi]='Road & Track Archive'
+    expected_doc_hash[:collection_ssim]=['Test Collection Name','Road & Track Archive']
+    expected_doc_hash[:is_member_of_ssim]=['aa00bb0001','mr163sv5231']
+    expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
+        
+  end
+
+  it "should not add an archive to the record if a known one is not present in the object" do
+    
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>'Test Collection Name'})
+    doc=basic_mods
+    @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
+    expected_doc_hash=basic_expected_doc_hash
+    expected_doc_hash.delete(:archive_ssi)
+    expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
+    
+  end
+  
   it "should throw an exception if no images are found" do
     
     setup('oo000oo0001','mods_minimal.xml','purl_xml_missing_image.xml')

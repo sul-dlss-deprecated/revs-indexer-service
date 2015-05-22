@@ -77,7 +77,7 @@ GEM
       thor (~> 0.19.1)
     currencies (0.4.2)
     diff-lcs (1.2.5)
-    discovery-indexer (0.9.3)
+    discovery-indexer (0.9.4)
       nokogiri
       rest-client
       retries
@@ -117,7 +117,7 @@ GEM
       capistrano-releaseboard
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mime-types (1.25.1)
+    mime-types (2.5)
     mini_portile (0.6.2)
     minitest (5.6.1)
     mods (2.0.3)

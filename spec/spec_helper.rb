@@ -120,13 +120,13 @@ def basic_expected_doc_hash
    }
 end
 
-def setup(pid,mods_fixture,purl_fixture)
+def setup(pid,mods_fixture,purl_fixture,collection_names=nil)
   @pid=pid
   @mods=Stanford::Mods::Record.new
   @mods.from_nk_node(Nokogiri::XML(open("spec/fixtures/#{mods_fixture}"),nil,'UTF-8'))
   public_xml=Nokogiri::XML(open("spec/fixtures/#{purl_fixture}"),nil,'UTF-8')
   purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(pid,public_xml)
   @purl=purl_parser.parse()
-  @collection_names={'aa00bb0001'=>'Test Collection Name','nt028fd5773'=>'Revs Institute Archive'}
+  @collection_names=collection_names || {'aa00bb0001'=>'Test Collection Name','nt028fd5773'=>'Revs Institute Archive'}
   @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)    
 end
