@@ -3,7 +3,7 @@ require 'revs-utils'
 class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper 
 
   include Revs::Utils
-
+  
   ARCHIVE_DRUIDS={:revs=>'nt028fd5773',:roadandtrack=>'mr163sv5231'}  # a hash of druids of the master archives, keys are arbitrary but druids must match the druids in DOR
                                                                       #  these druids will be used to set the archive name in each document
   MULTI_COLLECTION_ARCHIVES=[:revs] # list the keys from the hash above for any archives that contain multiple collections (like Revs), for which each item in DOR belongs to both a parent collection and the master archive collection ... since we do not want to also add the master archive name as another collection druid to each record, we skip them
@@ -151,8 +151,11 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
     end
     
     raise 'no image found' if (!@purlxml.is_collection && doc_hash[:image_id_ssm].nil?)
+    
+    doc_hash[:score_isi]=revs_compute_score(doc_hash)
         
     doc_hash
+    
   end
 
   def copyright
@@ -217,5 +220,10 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
   def collect_values(values)
     return values.collect {|value| value.text.strip} 
   end
-  
+
+  # tells you if have a blank value or an array that has just blank values
+  def blank_value?(value)
+     value.class == Array ? !value.delete_if(&:blank?).any? : value.blank? 
+  end
+      
 end

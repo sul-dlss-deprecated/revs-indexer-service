@@ -43,6 +43,7 @@ describe RevsMapper do
          :metadata_sources_tsi => "metadata sources go here",
          :people_ssim => ["Another personal name", "First personal name"],
          :visibility_isi => 0,
+         :score_isi=>10,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.",
          :archive_ssi => "Revs Institute Archive"
@@ -79,6 +80,7 @@ describe RevsMapper do
          :format_ssim=>"collection",
          :image_id_ssm=>nil,
          :source_id_ssi=>"",
+         :score_isi=>0,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information.",
          :archive_ssi => "Revs Institute Archive"
@@ -146,6 +148,7 @@ describe RevsMapper do
          :is_member_of_ssim => ["aa00bb0001"],
          :collection_ssim => ["Test Collection Name"],
          :source_id_ssi => "foo-purl",
+         :score_isi=>0,
          :archive_ssi => "Revs Institute Archive"
        }
       
@@ -200,7 +203,7 @@ describe RevsMapper do
   it "should properly index a Revs MODs record with no city section node" do
   
     doc=basic_mods + '<subject id="location" displayLabel="Location" authority="local"><hierarchicalGeographic><country>USA</country></hierarchicalGeographic></subject>'    
-    expected_doc_hash=basic_expected_doc_hash.merge({:countries_ssi=>"USA"}) 
+    expected_doc_hash=basic_expected_doc_hash.merge({:countries_ssi=>"USA",:score_isi=>10}) 
     should_match(doc,expected_doc_hash)
 
   end  
