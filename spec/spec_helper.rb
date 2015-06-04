@@ -128,6 +128,6 @@ def setup(pid,mods_fixture,purl_fixture,collection_names=nil)
   public_xml=Nokogiri::XML(open("spec/fixtures/#{purl_fixture}"),nil,'UTF-8')
   purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(pid,public_xml)
   @purl=purl_parser.parse()
-  @collection_names=collection_names || {'aa00bb0001'=>'Test Collection Name','nt028fd5773'=>'Revs Institute Archive'}
+  @collection_names=collection_names || {'aa00bb0001'=>{:name=>'Test Collection Name',:catkey=>'000001'},'nt028fd5773'=>{:name=>'Revs Institute Archive',:catkey=>'000002'}}
   @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)    
 end

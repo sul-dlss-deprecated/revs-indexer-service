@@ -14,8 +14,8 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
   # @purlxml == DiscoveryIndexer::InputXml::PurlxmlModel class object
   # @purlxml.public_xml == Nokogiri document (for custom parsing)
   # @collection_names = hash of collection_druid and
-  # collection_name !{"aa111aa1111"=>"First Collection", "bb123bb1234"=>"Second Collection"}
-
+  # collection_name !{'aa00bb0001'=>{:name=>'Test Collection Name',:catkey=>'000001'},'nt028fd5773'=>{:name=>'Revs Institute Archive',:catkey=>'000002'}}
+  
   # Create a Hash representing a Solr doc, with all MODS related fields populated.
   # @return [Hash] Hash representing the Solr document
   def convert_to_solr_doc
