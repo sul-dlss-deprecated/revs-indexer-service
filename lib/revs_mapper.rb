@@ -8,13 +8,13 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
                                                                       #  these druids will be used to set the archive name in each document
   MULTI_COLLECTION_ARCHIVES=[:revs] # list the keys from the hash above for any archives that contain multiple collections (like Revs), for which each item in DOR belongs to both a parent collection and the master archive collection ... since we do not want to also add the master archive name as another collection druid to each record, we skip them
   
-  # @druid   ==  druid pid
+  # @druid   ==  druid pid (without druid prefix)
   # @modsxml == Stanford::Mods::Record class object
   # @modsxml.mods_ng_xml == Nokogiri document (for custom parsing)
   # @purlxml == DiscoveryIndexer::InputXml::PurlxmlModel class object
   # @purlxml.public_xml == Nokogiri document (for custom parsing)
   # @collection_names = hash of collection_druid and
-  # collection_name !{'aa00bb0001'=>{:name=>'Test Collection Name',:catkey=>'000001'},'nt028fd5773'=>{:name=>'Revs Institute Archive',:catkey=>'000002'}}
+  # collection_name = {'aa00bb0001'=>{:name=>'Test Collection Name',:catkey=>'000001'},'nt028fd5773'=>{:name=>'Revs Institute Archive',:catkey=>'000002'}}
   
   # Create a Hash representing a Solr doc, with all MODS related fields populated.
   # @return [Hash] Hash representing the Solr document
@@ -37,9 +37,14 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
    # add archive to each solr doc
    @collection_names.each { |coll_druid,coll_name|  
      if ARCHIVE_DRUIDS.has_value?(coll_druid) # if this is an archive level collection, add it
-       doc_hash[:archive_ssi] = clean_collection_name(coll_name)
+       doc_hash[:archive_ssi] = clean_collection_name(coll_name[:label])
      end
    }   
+   
+   # if we are a single collection archive (e.g. Road & Track) and this is that collection object, we need to add the archive to ourselves (special edge case for single collection archives for the collection itself)
+   if (ARCHIVE_DRUIDS.has_value?(@druid) && !MULTI_COLLECTION_ARCHIVES.include?(ARCHIVE_DRUIDS.key(@druid))) 
+     doc_hash[:archive_ssi] = clean_collection_name(@modsxml.title_info.title.text.strip)
+   end 
    
     if @purlxml.is_collection # if a collection, add the right format and grab the abstract as the description
       doc_hash[:format_ssim] = 'collection'
@@ -55,7 +60,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
         @collection_names.each { |coll_druid,coll_name|  
           unless (ARCHIVE_DRUIDS.has_value?(coll_druid) && MULTI_COLLECTION_ARCHIVES.include?(ARCHIVE_DRUIDS.key(coll_druid))) # skip the master Revs Institute Collection when adding collections we belong to
             doc_hash[:is_member_of_ssim] << coll_druid
-            doc_hash[:collection_ssim] << clean_collection_name(coll_name)
+            doc_hash[:collection_ssim] << clean_collection_name(coll_name[:label])
           end
         }
       end   

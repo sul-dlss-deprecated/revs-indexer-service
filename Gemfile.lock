@@ -29,7 +29,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (5.0.1.20140414130214)
-    base_indexer (0.3.8)
+    base_indexer (0.4.0)
       discovery-indexer
       is_it_working-cbeer
       rails (~> 4.1, >= 4.1.9)
@@ -251,7 +251,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  base_indexer (>= 0.3.8)
+  base_indexer (>= 0.4.0)
   capistrano (~> 3.0)
   capistrano-bundler
   capistrano-rails

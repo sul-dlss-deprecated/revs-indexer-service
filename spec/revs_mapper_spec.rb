@@ -92,7 +92,7 @@ describe RevsMapper do
 
   it "should generate the correct archive_ssi field for road & track" do
     
-    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'mr163sv5231'=>'Road & Track Archive'})
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'mr163sv5231'=>{:label=>'Road & Track Archive',:catkey=>'oooooo'}})
     doc=basic_mods
     @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
     expected_doc_hash=basic_expected_doc_hash
@@ -101,7 +101,7 @@ describe RevsMapper do
     expected_doc_hash[:is_member_of_ssim]=['mr163sv5231']
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
 
-    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>'Test Collection Name','mr163sv5231'=>'Road & Track Archive'})
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>{:label=>'Test Collection Name',:catkey=>nil},'mr163sv5231'=>{:label=>'Road & Track Archive',:catkey=>'oooooo'}})
     doc=basic_mods
     @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
     expected_doc_hash=basic_expected_doc_hash
@@ -114,7 +114,7 @@ describe RevsMapper do
 
   it "should not add an archive to the record if a known one is not present in the object" do
     
-    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>'Test Collection Name'})
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>{:label=>'Test Collection Name',:catkey=>nil}})
     doc=basic_mods
     @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
     expected_doc_hash=basic_expected_doc_hash
@@ -159,7 +159,7 @@ describe RevsMapper do
   it "should properly index a Revs MODs record with a multiple city section node" do
     
     doc=basic_mods + '<subject id="location" displayLabel="Location" authority="local"><hierarchicalGeographic><citySection>First guy</citySection><citySection>Another string</citySection></hierarchicalGeographic></subject>'    
-    expected_doc_hash=basic_expected_doc_hash.merge({:city_sections_ssi => "First guy, Another string"})     
+    expected_doc_hash=basic_expected_doc_hash.merge({:city_sections_ssi => "First guy, Another string",:score_isi=>10})     
     should_match(doc,expected_doc_hash)
   
   end
