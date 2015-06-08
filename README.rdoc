@@ -62,7 +62,7 @@ rails c
   # to manually fetch xml and then test out mapping
   purl=indexer.read_purl(pid) # will go out to actual purl page and grab full public xml
   mods=indexer.read_mods(pid) # will go out to actual purl page and grab full mods
-  collection_names=indexer.get_collection_names(purl.collection_druids) # will get collections this pid belongs to
+  collection_names=indexer.get_collection_data(purl.collection_druids) # will get collections this pid belongs to
 
   mapper = RevsMapper.new(pid,mods,purl,collection_names)
   puts mapper.convert_to_solr_doc # will perform a mapping to solr_doc
