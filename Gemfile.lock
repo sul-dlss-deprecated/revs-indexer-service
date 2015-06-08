@@ -29,8 +29,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (5.0.1.20140414130214)
-    base_indexer (0.4.0)
-      discovery-indexer
+    base_indexer (0.4.1)
+      discovery-indexer (>= 0.9.5)
       is_it_working-cbeer
       rails (~> 4.1, >= 4.1.9)
       retries
@@ -77,7 +77,7 @@ GEM
       thor (~> 0.19.1)
     currencies (0.4.2)
     diff-lcs (1.2.5)
-    discovery-indexer (0.9.4)
+    discovery-indexer (0.9.5)
       nokogiri
       rest-client
       retries
@@ -107,7 +107,7 @@ GEM
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.2)
+    json (1.8.3)
     libv8 (3.16.14.7)
     link_header (0.0.8)
     lyberteam-capistrano-devel (3.2.0)
@@ -117,9 +117,9 @@ GEM
       capistrano-releaseboard
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mime-types (2.5)
+    mime-types (2.6.1)
     mini_portile (0.6.2)
-    minitest (5.6.1)
+    minitest (5.7.0)
     mods (2.0.3)
       iso-639
       nokogiri
@@ -156,7 +156,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
-    rdf (1.1.13)
+    rdf (1.1.14)
       link_header (~> 0.0, >= 0.0.8)
     rdoc (4.2.0)
       json (~> 1.4)
@@ -181,7 +181,7 @@ GEM
     rspec-mocks (3.2.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
-    rspec-rails (3.2.1)
+    rspec-rails (3.2.3)
       actionpack (>= 3.0, < 4.3)
       activesupport (>= 3.0, < 4.3)
       railties (>= 3.0, < 4.3)
@@ -235,7 +235,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    tins (1.5.1)
+    tins (1.5.2)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
@@ -251,14 +251,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  base_indexer (>= 0.4.0)
+  base_indexer (>= 0.4.1)
   capistrano (~> 3.0)
   capistrano-bundler
   capistrano-rails
   capistrano-rvm
   coffee-rails (~> 4.0.0)
   coveralls
-  discovery-indexer (>= 0.8)
+  discovery-indexer (>= 0.9.5)
   dor-fetcher (>= 1.1.1)!
   equivalent-xml
   jbuilder (~> 2.0)

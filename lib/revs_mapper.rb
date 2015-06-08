@@ -13,8 +13,8 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
   # @modsxml.mods_ng_xml == Nokogiri document (for custom parsing)
   # @purlxml == DiscoveryIndexer::InputXml::PurlxmlModel class object
   # @purlxml.public_xml == Nokogiri document (for custom parsing)
-  # @collection_names = hash of collection_druid and catkey
-  # e.g. @collection_names = {'aa00bb0001'=>{:name=>'Test Collection Name',:ckey=>'000001'},'nt028fd5773'=>{:name=>'Revs Institute Archive',:ckey=>'000002'}}
+  # @collection_data = hash of collection_druid and catkey
+  # e.g. @collection_data = {'aa00bb0001'=>{:name=>'Test Collection Name',:ckey=>'000001'},'nt028fd5773'=>{:name=>'Revs Institute Archive',:ckey=>'000002'}}
   
   # Create a Hash representing a Solr doc, with all MODS related fields populated.
   # @return [Hash] Hash representing the Solr document
@@ -35,7 +35,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
    pub_date=@modsxml.origin_info.dateCreated.text.strip
 
    # add archive to each solr doc
-   @collection_names.each { |coll_druid,coll_name|  
+   @collection_data.each { |coll_druid,coll_name|  
      if ARCHIVE_DRUIDS.has_value?(coll_druid) # if this is an archive level collection, add it
        doc_hash[:archive_ssi] = clean_collection_name(coll_name[:label])
      end
@@ -54,10 +54,10 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
       set_value_or_add(doc_hash,:format_ssim,formats.presence || ['unspecified'])
 
       # determine collection druids and their titles and add to solr doc
-      unless @collection_names.blank?
+      unless @collection_data.blank?
         doc_hash[:collection_ssim] = []
         doc_hash[:is_member_of_ssim] = []
-        @collection_names.each { |coll_druid,coll_name|  
+        @collection_data.each { |coll_druid,coll_name|  
           unless (ARCHIVE_DRUIDS.has_value?(coll_druid) && MULTI_COLLECTION_ARCHIVES.include?(ARCHIVE_DRUIDS.key(coll_druid))) # skip the master Revs Institute Collection when adding collections we belong to
             doc_hash[:is_member_of_ssim] << coll_druid
             doc_hash[:collection_ssim] << clean_collection_name(coll_name[:label])
