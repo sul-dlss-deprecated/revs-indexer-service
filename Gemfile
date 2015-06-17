@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'base_indexer', '>=0.4.3'
 gem 'revs-utils', '>=2.1.4'
 gem 'discovery-indexer', '>= 0.9.5'
-gem 'dor-fetcher', '>= 1.1.1', :source => 'https://rubygems.org'
+gem 'dor-fetcher', '>= 1.1.1'
 gem 'mysql2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

@@ -259,7 +259,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   coveralls
   discovery-indexer (>= 0.9.5)
-  dor-fetcher (>= 1.1.1)!
+  dor-fetcher (>= 1.1.1)
   equivalent-xml
   jbuilder (~> 2.0)
   jquery-rails
