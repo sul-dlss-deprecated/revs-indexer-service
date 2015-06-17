@@ -13,7 +13,7 @@ language: ruby
 cache: bundler
 
 before_script:
-- cp config/solr.yml.example config/solr.yml
+- rake config
 
 script: bundle exec rake spec 
 
