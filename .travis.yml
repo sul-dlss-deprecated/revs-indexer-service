@@ -13,7 +13,7 @@ language: ruby
 cache: bundler
 
 before_script:
-- rake config
+- bundle exec rake config
 
 script: bundle exec rake spec 
 
