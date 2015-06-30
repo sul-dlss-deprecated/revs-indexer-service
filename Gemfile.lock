@@ -183,6 +183,8 @@ GEM
     rdoc (4.2.0)
       json (~> 1.4)
     ref (1.0.5)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -288,6 +290,7 @@ DEPENDENCIES
   lyberteam-capistrano-devel (~> 3)
   mysql2
   rails (>= 4.2.2)
+  responders (~> 2.0)
   revs-utils (>= 2.1.4)
   rspec-rails
   sass-rails (~> 4.0.3)
