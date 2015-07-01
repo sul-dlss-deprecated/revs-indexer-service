@@ -87,6 +87,8 @@ RSpec.configure do |config|
 =end
 end
 
+RSpec::Expectations.configuration.warn_about_potential_false_positives = false
+
 def should_match(doc,expected_doc_hash)
   setup('oo000oo0001','mods_xml.xml','purl_xml.xml')
   @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own
