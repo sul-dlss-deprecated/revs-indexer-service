@@ -2,7 +2,7 @@
 <mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd">
   <typeOfResource>still image</typeOfResource>
   <genre authority="aat">digital image</genre>
-  <subject authority="lcsh">
+  <subject displayLabel="Subject" authority="lcsh">
     <topic>Automobile</topic>
     <topic>History</topic>
   </subject>

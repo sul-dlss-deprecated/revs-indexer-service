@@ -81,9 +81,12 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
       doc_hash[:genre_ssi] = @modsxml.genre.text.strip.presence || "digital image"
       @modsxml.subject.each do |subject| # loop over all subject nodes
        case subject['displayLabel']  # the display label tells us which solr field to go to
-          when nil  # subject field
+          when nil # the way the subject field used to be, it had no label
             field_name=:subjects_ssim
             values=collect_values(subject.topic) # multivalued topic field
+          when "Subject" # subject field
+            field_name=:subjects_ssim
+            values=collect_values(subject.topic) # multivalued topic field            
           when "Marque"
             field_name=:marque_ssim
             values=collect_values(subject.topic)  # multivalued topic field
