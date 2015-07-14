@@ -147,7 +147,6 @@ describe RevsMapper do
          :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020"],
          :is_member_of_ssim => ["aa00bb0001"],
          :collection_ssim => ["Test Collection Name"],
-         :source_id_ssi => "foo-purl",
          :score_isi=>0,
          :archive_ssi => "Revs Institute Archive"
        }
