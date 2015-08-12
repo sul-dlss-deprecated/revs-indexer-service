@@ -42,7 +42,6 @@ describe RevsMapper do
          :prod_notes_tsi => "prod notes when scanning",
          :metadata_sources_tsi => "metadata sources go here",
          :people_ssim => ["Another personal name", "First personal name"],
-         :visibility_isi => 0,
          :score_isi=>11,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.",
@@ -163,42 +162,21 @@ describe RevsMapper do
   
   end
 
-  it "should properly index a Revs MODs record with visibility value set to a known hidden value" do
+  it "should ignore a Revs MODs record with visibility values" do
 
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">hidden</note>'    
-    expected_doc_hash=basic_expected_doc_hash.merge({:visibility_isi => 0})
-    should_match(doc,expected_doc_hash)
-    
+    should_match(doc,basic_expected_doc_hash)
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">Hidden</note>'    
-    expected_doc_hash=basic_expected_doc_hash.merge({:visibility_isi => 0})
-    should_match(doc,expected_doc_hash)
-
-    doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">hide</note>'    
-    expected_doc_hash=basic_expected_doc_hash.merge({:visibility_isi => 0})
-    should_match(doc,expected_doc_hash)
-
+    should_match(doc,basic_expected_doc_hash)
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">0</note>'    
-    expected_doc_hash=basic_expected_doc_hash.merge({:visibility_isi => 0})
-    should_match(doc,expected_doc_hash)
-
-  end
-
-  it "should properly index a Revs MODs record with visibility value not set to hidden, leaving it visible" do
-  
-    doc=basic_mods
-    expected_doc_hash=basic_expected_doc_hash
-    should_match(doc,expected_doc_hash)
-
+    should_match(doc,basic_expected_doc_hash)
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">yup</note>'    
-    expected_doc_hash=basic_expected_doc_hash    
-    should_match(doc,expected_doc_hash)
-
+    should_match(doc,basic_expected_doc_hash)
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility"></note>'    
-    expected_doc_hash=basic_expected_doc_hash       
-    should_match(doc,expected_doc_hash)
+    should_match(doc,basic_expected_doc_hash)
 
   end
-  
+
   it "should properly index a Revs MODs record with no city section node" do
   
     doc=basic_mods + '<subject id="location" displayLabel="Location" authority="local"><hierarchicalGeographic><country>USA</country></hierarchicalGeographic></subject>'    

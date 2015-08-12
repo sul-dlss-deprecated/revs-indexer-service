@@ -149,7 +149,8 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
           doc_hash[:race_data_tsi] = note.text.strip if note.attributes['ID'].text == 'race_data' # race data
           doc_hash[:metadata_sources_tsi] = note.text.strip if note.attributes['ID'].text == 'metadata_sources' # metadata sources
           doc_hash[:vehicle_markings_tsi] = note.text.strip if note.attributes['ID'].text == 'vehicle_markings' # vehicle markings
-          doc_hash[:visibility_isi] = 0 if note.attributes['ID'].text == 'visibility' && ['hidden','0','hide'].include?(note.text.strip.downcase) # visibility
+          # do no update visibility when indexing since this value is easily overriden  in the app and the mods is not updated
+          #doc_hash[:visibility_isi] = 0 if note.attributes['ID'].text == 'visibility' && ['hidden','0','hide'].include?(note.text.strip.downcase) # visibility
         end
       end
     end
