@@ -154,6 +154,33 @@ describe RevsMapper do
          
   end
 
+  it "should properly downcase the format value" do
+
+    setup('oo000oo0001','mods_basic_alt_format.xml','purl_xml.xml')
+    
+    expected_doc_hash=
+      {
+         :source_id_ssi=>'foo-2',
+         :id => 'oo000oo0001',
+         :title_tsi=>"This is a title",
+         :format_ssim=>["glass negatives"],
+         :genre_ssi => "digital image",
+         :type_of_resource_ssi => "still image",
+         :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020"],
+         :is_member_of_ssim => ["aa00bb0001"],
+         :collection_ssim => ["Test Collection Name"],
+         :score_isi=>0,
+         :description_tsim=>"Description",
+         :subjects_ssim=>["Automobile", "History"],
+         :archive_ssi => "Revs Institute Archive",
+         :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
+         :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
+       }
+      
+      expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
+         
+  end
+  
   it "should properly index a Revs MODs record with a multiple city section node" do
     
     doc=basic_mods + '<subject id="location" displayLabel="Location" authority="local"><hierarchicalGeographic><citySection>First guy</citySection><citySection>Another string</citySection></hierarchicalGeographic></subject>'    

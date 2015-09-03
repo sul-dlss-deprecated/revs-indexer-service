@@ -47,7 +47,7 @@ class RevsMapper < DiscoveryIndexer::Mapper::GeneralMapper
       doc_hash[:description_tsim] = @modsxml.abstract.text.strip
     else # if not a collection, lets dig into the other relevant fields, e.g. notes fields for descriptions and other notes; subject field, etc.
       formats=collect_values(@modsxml.related_item.physicalDescription.form)
-      set_value_or_add(doc_hash,:format_ssim,formats.presence || ['unspecified'])
+      set_value_or_add(doc_hash,:format_ssim,formats.collect {|format| format.class == String ? format.downcase.strip : format}.presence || ['unspecified'])
 
       # determine collection druids and their titles and add to solr doc
       unless @collection_data.blank?
