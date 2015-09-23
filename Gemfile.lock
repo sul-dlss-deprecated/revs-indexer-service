@@ -86,7 +86,7 @@ GEM
       thor (~> 0.19.1)
     currencies (0.4.2)
     diff-lcs (1.2.5)
-    discovery-indexer (0.9.7)
+    discovery-indexer (0.9.8)
       nokogiri
       rest-client
       retries
@@ -283,7 +283,7 @@ DEPENDENCIES
   capistrano-rvm
   coffee-rails (~> 4.0.0)
   coveralls
-  discovery-indexer (>= 0.9.5)
+  discovery-indexer (>= 0.9.8)
   dor-fetcher (>= 1.1.1)
   equivalent-xml
   jbuilder (~> 2.0)
