@@ -23,14 +23,14 @@ rake task you are running, and will be timestamped to be unique.
 
 rake index RAILS_ENV=production target=revs_prod druid=oo000oo0001
 
-=== Index a list of druids from a pre-assembly run, a remeditaion run, or a simple CSV:
+=== Index a list of druids from a pre-assembly run, a remediation run, or a simple CSV:
 
 rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=preassembly  # preassembly run
 nohup rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1.yaml log_type=preassembly &  # for a long running process, which will be most runs that have more than a few dozen druids, nohup it
 
-rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1_remediate.yaml log_type=remediate # remediation run 
+rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander_1_remediate.yaml log_type=remediate # remediation run
 
-rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander.csv log_type=csv # a simple csv file -- it must have a header line, with the header of "druid" definining the items you wish to index 
+rake log_indexer RAILS_ENV=production target=revs_prod log_file=/tmp/mailander.csv log_type=csv # a simple csv file -- it must have a header line, with the header of "druid" definining the items you wish to index
 
 === Index an entire collection, including the collection itself, along with all of its members (be sure to check the dor-fetcher-url parameter in the Rails environment you are running under to be sure it is connecting where you expect):
 
@@ -55,10 +55,10 @@ rails c
   indexer = BaseIndexer::MainIndexerEngine.new
 
   # to just perform an index of a document:
-  indexer.index(pid,['revs']) # do the full indexing (including posting to solr), the 'revs' indicates the configured solr url target in the solr.yml config file 
-  
+  indexer.index(pid,['revs']) # do the full indexing (including posting to solr), the 'revs' indicates the configured solr url target in the solr.yml config file
+
   indexer.delete pid # delete the druid (from all targets!! so be careful)
-  
+
   # to manually fetch xml and then test out mapping
   purl=indexer.read_purl(pid) # will go out to actual purl page and grab full public xml
   mods=indexer.read_mods(pid) # will go out to actual purl page and grab full mods
@@ -76,5 +76,5 @@ Should be run automatically via Travis-CI
 == Deploying
 
   bundle exec cap production deploy   # for production
-  bundle exec cap staging deploy      # for staging   
+  bundle exec cap staging deploy      # for staging
   bundle exec cap development deploy  # for development
