@@ -1,6 +1,6 @@
 set :application, "revs-indexer-service"
 set :repo_url, "https://github.com/sul-dlss/revs-indexer-service"
-set :user, ask("User", 'enter in the app username')
+set :user, "harvestdor"
 
 set :home_directory, "/opt/app/#{fetch(:user)}"
 set :deploy_to, "#{fetch(:home_directory)}/#{fetch(:application)}"
@@ -18,9 +18,6 @@ default_tag='master'
 set :tag, ask("Tag to deploy (make sure to push the tag first): [default: #{default_tag}, last tag: #{last_tag}] ", default_tag)
 
 set :branch, fetch(:tag)
-
-set :deploy_host, ask("Server", 'enter in the server you are deploying to. do not include .stanford.edu')
-server "#{fetch(:deploy_host)}.stanford.edu", user: fetch(:user), roles: %w{web db app}
 
 namespace :deploy do
   task :start do ; end
