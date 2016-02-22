@@ -65,6 +65,18 @@ describe RevsMapper do
 
   end
 
+  it "should indicate if an item is an image or not" do
+
+    # a collection is not an image
+    setup('bc915dc7146','mods_basic_collection.xml','purl_xml_collection.xml')
+    expect(@indexer.image?).to be_falsey
+
+    # a revs item is an image
+    setup('bc915dc7146','mods_xml.xml','purl_xml.xml')
+    expect(@indexer.image?).to be_truthy
+
+  end
+
   it "should properly index a collection" do
 
     setup('bc915dc7146','mods_basic_collection.xml','purl_xml_collection.xml')
@@ -115,7 +127,7 @@ describe RevsMapper do
 
     setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'aa00bb0001'=>{:label=>'Test Collection Name',:catkey=>nil}})
     doc=basic_mods
-    @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own       
+    @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own
     expected_doc_hash=basic_expected_doc_hash
     expected_doc_hash.delete(:archive_ssi)
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
