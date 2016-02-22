@@ -8,6 +8,7 @@
 /.bundle
 config/*.yml
 coverage/*
+coverage/.resultset.json
 .last_run.json
 .resultset.json
 
