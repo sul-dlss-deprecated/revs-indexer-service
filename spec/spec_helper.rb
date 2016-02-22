@@ -92,14 +92,14 @@ RSpec::Expectations.configuration.warn_about_potential_false_positives = false
 def should_match(doc,expected_doc_hash)
   setup('oo000oo0001','mods_xml.xml','purl_xml.xml')
   @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own
-  expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)    
+  expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
 end
 
 def basic_mods
   File.read("spec/fixtures/mods_basic.xml")
 end
 
-def basic_mods_with_date(date)   
+def basic_mods_with_date(date)
    basic_mods+ "<originInfo><dateCreated>#{date}</dateCreated></originInfo></mods>"
 end
 
@@ -130,6 +130,14 @@ def setup(pid,mods_fixture,purl_fixture,collection_names=nil)
   public_xml=Nokogiri::XML(open("spec/fixtures/#{purl_fixture}"),nil,'UTF-8')
   purl_parser=DiscoveryIndexer::InputXml::PurlxmlParserStrict.new(pid,public_xml)
   @purl=purl_parser.parse()
-  @collection_names=collection_names || {'aa00bb0001'=>{:label=>'Test Collection Name',:catkey=>'000001'},'nt028fd5773'=>{:label=>'Revs Institute Archive',:catkey=>'000002'}}
-  @indexer = RevsMapper.new(@pid,@mods,@purl,@collection_names)    
+  collection_names ||= {'aa00bb0001'=>{:label=>'Test Collection Name',:catkey=>'000001'},'nt028fd5773'=>{:label=>'Revs Institute Archive',:catkey=>'000002'}}
+  collection_data=collection_names.map do |k,v|
+    col=DiscoveryIndexer::Collection.new(k)
+    allow(col).to receive(:title).and_return v[:label]
+    col
+  end
+  @indexer = RevsMapper.new(@pid)
+  allow(@indexer).to receive(:collection_data).and_return(collection_data)
+  allow(@indexer).to receive(:modsxml).and_return(@mods)
+  allow(@indexer).to receive(:purlxml).and_return(@purl)
 end
