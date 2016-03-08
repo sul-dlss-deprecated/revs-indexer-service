@@ -55,18 +55,13 @@ rails c
   indexer = BaseIndexer::MainIndexerEngine.new
 
   # to just perform an index of a document:
-  indexer.index(pid,['revs']) # do the full indexing (including posting to solr), the 'revs' indicates the configured solr url target in the solr.yml config file
+  indexer.index(pid,{'revs'=>true}) # do the full indexing (including posting to solr), the 'revs' indicates the configured solr url target in the solr.yml config file
 
   indexer.delete pid # delete the druid (from all targets!! so be careful)
 
-  # to manually fetch xml and then test out mapping
-  purl=indexer.read_purl(pid) # will go out to actual purl page and grab full public xml
-  mods=indexer.read_mods(pid) # will go out to actual purl page and grab full mods
-  collection_data=indexer.get_collection_data(purl.collection_druids) # will get collections this pid belongs to
-
-  mapper = RevsMapper.new(pid,mods,purl,collection_data)
-  puts mapper.convert_to_solr_doc # will perform a mapping to solr_doc
-
+  # to manually test out mapping
+  solr_doc = BaseIndexer.mapper_class_name.constantize.new(pid).convert_to_solr_doc
+  
 == Running tests
 
 bundle exec rspec spec
