@@ -144,7 +144,9 @@ class RevsMapper < DiscoveryIndexer::GeneralMapper
           doc_hash[:has_more_metadata_ssi] = note.text.strip if note.attributes['ID'].text == 'has_more_metadata' # has_more_metadata
           doc_hash[:inst_notes_tsi] = note.text.strip if note.attributes['ID'].text == 'inst_notes' # institution notes
           doc_hash[:prod_notes_tsi] = note.text.strip if note.attributes['ID'].text == 'prod_notes' # production notes
-          doc_hash[:group_class_tsi] = note.text.strip if note.attributes['ID'].text == 'group' # group/class
+          doc_hash[:group_class_tsi] = note.text.strip if note.attributes['ID'].text == 'group' # group/class ... this field is being split into two, but we will support the single field since not all existing records will be updated at once
+          doc_hash[:group_ssi] = note.text.strip if note.attributes['ID'].text == 'car_group' # group
+          doc_hash[:class_ssi] = note.text.strip if note.attributes['ID'].text == 'car_class' # class
           doc_hash[:race_data_tsi] = note.text.strip if note.attributes['ID'].text == 'race_data' # race data
           doc_hash[:metadata_sources_tsi] = note.text.strip if note.attributes['ID'].text == 'metadata_sources' # metadata sources
           doc_hash[:vehicle_markings_tsi] = note.text.strip if note.attributes['ID'].text == 'vehicle_markings' # vehicle markings

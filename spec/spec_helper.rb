@@ -112,7 +112,7 @@ def basic_expected_doc_hash
      :format_ssim=>["color transparencies"],
      :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020"],
      :source_id_ssi=>"foo-2",
-     :score_isi=>11,
+     :score_isi=>10,
      :type_of_resource_ssi=>"still image",
      :genre_ssi=>"digital image",
      :subjects_ssim=>["Automobile", "History"],
