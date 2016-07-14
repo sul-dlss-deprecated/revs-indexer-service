@@ -11,6 +11,7 @@ coverage/*
 coverage/.resultset.json
 .last_run.json
 .resultset.json
+coverage/.last_run.json
 
 .rake_tasks*
 

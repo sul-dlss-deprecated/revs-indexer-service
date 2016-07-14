@@ -28,23 +28,23 @@
       <city>San Mateo</city>
       <citySection>Bay Motor Speedway</citySection>
     </hierarchicalGeographic>
-  </subject>           
+  </subject>
   <subject displayLabel="Marque" authority="lcsh" authorityURI="http://id.loc.gov/authorities/subjects">
     <topic valueURI="http://id.loc.gov/authorities/subjects/sh85050464">Ford automobile</topic>
   </subject>
   <subject displayLabel="Marque" authority="local">
     <topic>Jaguar</topic>
-  </subject>    
+  </subject>
   <subject displayLabel="Marque" authority="lcsh" authorityURI="http://id.loc.gov/authorities/subjects">
     <topic valueURI="http://id.loc.gov/authorities/subjects/sh94002401">Pegaso automobile</topic>
-  </subject>                  
+  </subject>
   <subject displayLabel="Marque" authority="lcsh" authorityURI="http://id.loc.gov/authorities/subjects">
     <topic valueURI="http://id.loc.gov/authorities/subjects/sh85130929">Suzuki automobile</topic>
-  </subject>     
+  </subject>
   <name id="photographer" displayLabel="Photographer" type="personal" authority="local">
     <namePart>Adams, Ansel</namePart>
     <role><roleTerm type="text" authorityURI="http://id.loc.gov/vocabulary/relators/pht">Photographer</roleTerm></role>
-	</name>  
+	</name>
 	<subject displayLabel="People" authority="local">
 		<name type="personal"><namePart>Another personal name</namePart></name>
 	</subject>
@@ -54,7 +54,7 @@
   <name type="personal" authority="local">
     <namePart>YoYo - This should not show up in our file</namePart>
     <role><roleTerm type="text" authorityURI="http://id.loc.gov/vocabulary/relators/pht">Some other thing</roleTerm></role>
-	</name>		   
+	</name>
 	<subject displayLabel="Model" authority="local">
 		<topic>911</topic>
 	</subject>
@@ -84,6 +84,8 @@
   <note type="source note" ID="bar">456</note>
   <note displayLabel="Description"> ERB Test: this is a description &gt; another description &lt; other stuff</note>
   <note displayLabel="Group or Class" ID="group">something in a group or class</note>
+  <note displayLabel="Car Group" ID="car_group">something in a group</note>
+  <note displayLabel="Car Class" ID="car_class">something in a class</note>
   <note displayLabel="Race Data" ID="race_data">Lots of race data</note>
   <note displayLabel="Metadata Sources" ID="metadata_sources">metadata sources go here</note>
   <note displayLabel="Vehicle Markings" ID="vehicle_markings">vehicle markings go here</note>

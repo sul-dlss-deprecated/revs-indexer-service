@@ -36,6 +36,8 @@ describe RevsMapper do
          :entrant_ssi => "Entrant Last, First",
          :event_ssi => "Bay Motor Speedway Race",
          :group_class_tsi => "something in a group or class",
+         :group_ssi => "something in a group",
+         :class_ssi => "something in a class",
          :has_more_metadata_ssi => "yes",
          :inst_notes_tsi => "these are some institution notes",
          :race_data_tsi => "Lots of race data",
@@ -91,7 +93,7 @@ describe RevsMapper do
          :format_ssim=>"collection",
          :image_id_ssm=>nil,
          :source_id_ssi=>"",
-         :score_isi=>11,
+         :score_isi=>10,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information.",
          :archive_ssi => "Revs Institute Archive"
@@ -181,7 +183,7 @@ describe RevsMapper do
          :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020"],
          :is_member_of_ssim => ["aa00bb0001"],
          :collection_ssim => ["Test Collection Name"],
-         :score_isi=>11,
+         :score_isi=>10,
          :description_tsim=>"Description",
          :subjects_ssim=>["Automobile", "History"],
          :archive_ssi => "Revs Institute Archive",
@@ -196,7 +198,7 @@ describe RevsMapper do
   it "should properly index a Revs MODs record with a multiple city section node" do
 
     doc=basic_mods + '<subject id="location" displayLabel="Location" authority="local"><hierarchicalGeographic><citySection>First guy</citySection><citySection>Another string</citySection></hierarchicalGeographic></subject>'
-    expected_doc_hash=basic_expected_doc_hash.merge({:city_sections_ssi => "First guy, Another string",:score_isi=>21})
+    expected_doc_hash=basic_expected_doc_hash.merge({:city_sections_ssi => "First guy, Another string",:score_isi=>20})
     should_match(doc,expected_doc_hash)
 
   end
@@ -204,22 +206,22 @@ describe RevsMapper do
   it "should ignore a Revs MODs record with visibility values" do
 
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">hidden</note>'
-    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>11}))
+    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>10}))
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">Hidden</note>'
-    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>11}))
+    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>10}))
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">0</note>'
-    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>11}))
+    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>10}))
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility">yup</note>'
-    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>11}))
+    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>10}))
     doc=basic_mods + '<note type="source note" displayLabel="Visibility" ID="visibility"></note>'
-    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>11}))
+    should_match(doc,basic_expected_doc_hash.merge({:score_isi=>10}))
 
   end
 
   it "should properly index a Revs MODs record with no city section node" do
 
     doc=basic_mods + '<subject id="location" displayLabel="Location" authority="local"><hierarchicalGeographic><country>USA</country></hierarchicalGeographic></subject>'
-    expected_doc_hash=basic_expected_doc_hash.merge({:countries_ssi=>"USA",:score_isi=>21})
+    expected_doc_hash=basic_expected_doc_hash.merge({:countries_ssi=>"USA",:score_isi=>20})
     should_match(doc,expected_doc_hash)
 
   end
@@ -228,19 +230,19 @@ describe RevsMapper do
 
     doc=basic_mods_with_date("5/6/1964")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_date_ssi => "5/6/1964",:pub_year_single_isi=>"1964",:pub_year_isim=>["1964"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
     doc=basic_mods_with_date("1966-02-27")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_date_ssi => "2/27/1966",:pub_year_single_isi=>"1966",:pub_year_isim=>["1966"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
     doc=basic_mods_with_date("1966-2-27")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_date_ssi => "2/27/1966",:pub_year_single_isi=>"1966",:pub_year_isim=>["1966"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
     doc=basic_mods_with_date("05/06/42")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_date_ssi => "5/6/1942",:pub_year_single_isi=>"1942",:pub_year_isim=>["1942"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
   end
 
@@ -248,7 +250,7 @@ describe RevsMapper do
 
     doc=basic_mods_with_date("196x")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1960","1961","1962","1963","1964","1965","1966","1967","1968","1969"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
   end
 
@@ -256,11 +258,11 @@ describe RevsMapper do
 
     doc=basic_mods_with_date("1960s")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1960","1961","1962","1963","1964","1965","1966","1967","1968","1969"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
     doc=basic_mods_with_date("1950's")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1950","1951","1952","1953","1954","1955","1956","1957","1958","1959"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
   end
 
@@ -268,7 +270,7 @@ describe RevsMapper do
 
     doc=basic_mods_with_date("1962-63")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1962","1963"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
    end
 
@@ -276,7 +278,7 @@ describe RevsMapper do
 
      doc=basic_mods_with_date("1965-8")
      expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1965","1966","1967","1968"]})
-     should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+     should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
   end
 
@@ -284,14 +286,14 @@ describe RevsMapper do
 
       doc=basic_mods_with_date("1969,1970,1971")
       expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1969","1970","1971"]})
-      should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+      should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
   end
 
   it "should properly index a Revs MODs record into the correct fields for the Revs Digital Library with a multiple years separated by pipes" do
 
      doc=basic_mods_with_date("1969|1970| 1971")
      expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1969","1970","1971"]})
-     should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+     should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
   end
 
@@ -299,7 +301,7 @@ describe RevsMapper do
 
     doc=basic_mods_with_date("1969-1971")
     expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1969","1970","1971"]})
-    should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+    should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
   end
 
@@ -307,15 +309,15 @@ describe RevsMapper do
 
    doc=basic_mods_with_date("6/1/69")
    expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1969"],:pub_year_single_isi=>"1969",:pub_date_ssi=>"6/1/1969"})
-   should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+   should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
    doc=basic_mods_with_date("11/14/14")
    expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["2014"],:pub_year_single_isi=>"2014",:pub_date_ssi=>"11/14/2014"})
-   should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+   should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
    doc=basic_mods_with_date("6/1/55")
    expected_doc_hash=basic_expected_doc_hash.merge({:pub_year_isim=>["1955"],:pub_year_single_isi=>"1955",:pub_date_ssi=>"6/1/1955"})
-   should_match(doc,expected_doc_hash.merge({:score_isi=>28}))
+   should_match(doc,expected_doc_hash.merge({:score_isi=>26}))
 
  end
 
