@@ -36,7 +36,7 @@ describe RevsMapper do
          :entrant_ssi => "Entrant Last, First",
          :event_ssi => "Bay Motor Speedway Race",
          :group_class_tsi => "something in a group or class",
-         :group_ssi => "something in a group",
+         :group_ssim => "something in a group",
          :class_ssi => "something in a class",
          :has_more_metadata_ssi => "yes",
          :inst_notes_tsi => "these are some institution notes",
