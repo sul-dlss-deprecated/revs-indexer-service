@@ -36,7 +36,7 @@ describe RevsMapper do
          :entrant_ssi => "Entrant Last, First",
          :event_ssi => "Bay Motor Speedway Race",
          :group_class_tsi => "something in a group or class",
-         :group_ssim => "something in a group",
+         :group_ssim => ["something in a group"],
          :class_ssi => "something in a class",
          :has_more_metadata_ssi => "yes",
          :inst_notes_tsi => "these are some institution notes",
@@ -183,10 +183,11 @@ describe RevsMapper do
          :image_id_ssm => ["2012-027NADI-1968-b2_8.3_0020"],
          :is_member_of_ssim => ["aa00bb0001"],
          :collection_ssim => ["Test Collection Name"],
-         :score_isi=>10,
+         :score_isi=>13,
          :description_tsim=>"Description",
          :subjects_ssim=>["Automobile", "History"],
          :archive_ssi => "Revs Institute Archive",
+         :group_ssim => ["something in a group", "and another group"],
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
        }
