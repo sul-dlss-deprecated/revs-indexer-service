@@ -140,12 +140,12 @@ class RevsMapper < DiscoveryIndexer::GeneralMapper
         if note.attributes['ID'].nil? && note.attributes['type'].nil?  # plain description field has no ID or type
           doc_hash[:description_tsim] = note.text.strip
         elsif !note.attributes['ID'].nil? # extra source note fields have an ID and sometimes a type
-          set_value_or_add(doc_hash,:model_year_ssim,note.text.strip.split("|")) if note.attributes['ID'].text == 'model_year' # model year
+          set_value_or_add(doc_hash,:model_year_ssim,note.text.strip.split("|")) if note.attributes['ID'].text == 'model_year' # model year is multivalued but stored in a single note field
+          set_value_or_add(doc_hash,:group_ssim,note.text.strip.split("|")) if note.attributes['ID'].text == 'car_group' # group is multivalued but stored in a single note field
           doc_hash[:has_more_metadata_ssi] = note.text.strip if note.attributes['ID'].text == 'has_more_metadata' # has_more_metadata
           doc_hash[:inst_notes_tsi] = note.text.strip if note.attributes['ID'].text == 'inst_notes' # institution notes
           doc_hash[:prod_notes_tsi] = note.text.strip if note.attributes['ID'].text == 'prod_notes' # production notes
           doc_hash[:group_class_tsi] = note.text.strip if note.attributes['ID'].text == 'group' # group/class ... this field is being split into two, but we will support the single field since not all existing records will be updated at once
-          doc_hash[:group_ssim] = note.text.strip if note.attributes['ID'].text == 'car_group' # group
           doc_hash[:class_ssi] = note.text.strip if note.attributes['ID'].text == 'car_class' # class
           doc_hash[:race_data_tsi] = note.text.strip if note.attributes['ID'].text == 'race_data' # race data
           doc_hash[:metadata_sources_tsi] = note.text.strip if note.attributes['ID'].text == 'metadata_sources' # metadata sources
