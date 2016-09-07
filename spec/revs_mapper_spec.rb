@@ -13,6 +13,7 @@ describe RevsMapper do
          :is_member_of_ssim => ["aa00bb0001"],
          :title_tsi=>"aa'this is < a label with an & that will break XML unless it is escaped' is the label!",
          :format_ssim=>["color transparencies"],
+         :original_size_ssi=>'6" x 5"',
          :image_id_ssm=>["2012-027NADI-1968-b2_8.3_0020"],
          :source_id_ssi=>"foo-mods",
          :pub_year_isim=>["1966"],

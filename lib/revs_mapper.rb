@@ -74,6 +74,9 @@ class RevsMapper < DiscoveryIndexer::GeneralMapper
       end
       doc_hash[:type_of_resource_ssi] = modsxml.typeOfResource.text.strip.presence || "still image"
       doc_hash[:genre_ssi] = modsxml.genre.text.strip.presence || "digital image"
+      if modsxml.related_item.physicalDescription.extent.size == 1
+        doc_hash[:original_size_ssi] =  modsxml.related_item.physicalDescription.extent.text.strip
+      end
       modsxml.subject.each do |subject| # loop over all subject nodes
        case subject['displayLabel']  # the display label tells us which solr field to go to
           when nil # the way the subject field used to be, it had no label
