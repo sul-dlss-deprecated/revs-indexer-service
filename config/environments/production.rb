@@ -76,6 +76,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   
-  config.dor_fetcher_url = 'https://dorfetcher-prod.stanford.edu'
+  config.fetcher_url = 'https://dorfetcher-prod.stanford.edu'
   
 end
