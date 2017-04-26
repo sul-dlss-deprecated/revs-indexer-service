@@ -10,7 +10,7 @@ Code to harvest Revs metadata from DOR and index it into Solr for the Revs Digit
 
 * checkout code
 * rake config
-* edit config/solr.yml file to add in actual solr URLs for each target
+* edit config/settings.yml file to add in actual solr URLs for each target (for local work only)
 * bundle install
 
 == Rake Tasks For Indexing Druids

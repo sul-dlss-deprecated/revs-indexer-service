@@ -1,0 +1,10 @@
+PURL_URL: https://purl.stanford.edu
+SOLR_TARGETS:
+  REVS:
+    url: http://localhost:8983/solr/development
+    allow_update: true
+  revs_dev:
+    url: dev-url
+  revs_stage:
+    url: stage-url
+DOR_SERVICES_URL: http://user:password@localhost:9292/v1
