@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'base_indexer'
-gem 'revs-utils', '>=2.1.22'
+gem 'revs-utils', '>=2.1.25'
 gem 'discovery-indexer', '~>3', '>= 3.0.1'
 gem 'dor-fetcher', '>= 1.1.1'
 gem 'mysql2'
