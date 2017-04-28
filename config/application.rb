@@ -22,16 +22,12 @@ module RevsIndexerService
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.eager_load_paths << Rails.root.join('lib')
     config.app_version = VERSION # read from VERSION file at base of website
     config.app_name = 'Revs-Indexing-Service'
+    config.fetcher_url = 'https://dorfetcher-prod.stanford.edu'
 
-    config.solr_config_file_path = "#{config.root}/config/solr.yml"
+    DiscoveryIndexer::PURL_DEFAULT = Settings.PURL_URL
 
   end
 end
-
-Squash::Ruby.configure :api_host => 'https://sul-squash-prod.stanford.edu',
-                       :api_key => 'a55b9c6c-d6b2-45bc-9955-92cb7b53bedb',
-                       :disabled => (Rails.env.development? || Rails.env.test?),
-                       :revision_file => 'REVISION'

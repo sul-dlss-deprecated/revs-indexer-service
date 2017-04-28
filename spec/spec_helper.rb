@@ -119,7 +119,7 @@ def basic_expected_doc_hash
      :description_tsim=>"Description",
      :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
      :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.",
-     :archive_ssi => "Revs Institute Archive"
+     :archive_ssi => "Revs Institute® Archives"
    }
 end
 

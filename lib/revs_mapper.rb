@@ -29,16 +29,18 @@ class RevsMapper < DiscoveryIndexer::GeneralMapper
 
    pub_date=modsxml.origin_info.dateCreated.text.strip
 
+   # NOTE: The ARCHIVE_DRUIDS and ARCHIVE_NAMES constants are defined in the revs-utils gem (https://github.com/sul-dlss/revs-utils)
+   #  since they are also used in the revs digital library code
    # add archive to each solr doc
    collection_data.each { |collection|
-     if ARCHIVE_DRUIDS.has_value?(collection.druid) # if this is an archive level collection, add it
-       doc_hash[:archive_ssi] = clean_collection_name(collection.title)
+     if ARCHIVE_DRUIDS.has_value?(collection.druid) # if this is an archive level collection, add it with the name specified in the revs-utils gem
+       doc_hash[:archive_ssi] = ARCHIVE_NAMES[ARCHIVE_DRUIDS.key(collection.druid)]
      end
    }
 
    # if we are a single collection archive (e.g. Road & Track) and this is that collection object, we need to add the archive to ourselves (special edge case for single collection archives for the collection itself)
    if (ARCHIVE_DRUIDS.has_value?(druid) && !MULTI_COLLECTION_ARCHIVES.include?(ARCHIVE_DRUIDS.key(druid)))
-     doc_hash[:archive_ssi] = clean_collection_name(modsxml.title_info.title.text.strip)
+     doc_hash[:archive_ssi] = ARCHIVE_NAMES[ARCHIVE_DRUIDS.key(druid)]
    end
 
     if purlxml.is_collection # if a collection, add the right format and grab the abstract as the description

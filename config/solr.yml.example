@@ -1,9 +1,0 @@
-revs:
-  url: prod-url
-  allow_update: true
-revs\:dev:
-  url: dev-url
-  allow_update: true
-revs\:stage:
-  url: stage-url
-  allow_update: true

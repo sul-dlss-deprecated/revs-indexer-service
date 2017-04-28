@@ -5,13 +5,15 @@ set :user, "harvestdor"
 set :home_directory, "/opt/app/#{fetch(:user)}"
 set :deploy_to, "#{fetch(:home_directory)}/#{fetch(:application)}"
 
-set :stages, %W(staging development production)
+set :stages, %W(stage dev prod)
+
+server "revs-indexing-#{fetch(:stage)}.stanford.edu", user: fetch(:user), roles: %w{web db app}
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/solr.yml config/secrets.yml}
+set :linked_files, %w{config/database.yml config/honeybadger.yml config/secrets.yml}
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system config/settings}
 
 last_tag = `git describe --abbrev=0 --tags`.strip
 default_tag='master'
@@ -19,18 +21,7 @@ set :tag, ask("Tag to deploy (make sure to push the tag first): [default: #{defa
 
 set :branch, fetch(:tag)
 
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      execute :touch, release_path.join('tmp/restart.txt')
-    end
-  end
-  after :publishing, :restart
+set :honeybadger_env, "#{fetch(:stage)}"
 
-end
-
-before 'deploy:compile_assets', 'squash:write_revision'
+# update shared_configs before restarting app
+before 'deploy:restart', 'shared_configs:update'

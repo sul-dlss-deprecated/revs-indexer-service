@@ -1,23 +1,27 @@
 source 'https://rubygems.org'
 
-gem 'base_indexer'
-gem 'revs-utils', '>=2.1.22'
+gem 'base_indexer', '~> 4'
+gem 'revs-utils', '>= 2.2.0'
 gem 'discovery-indexer', '~>3', '>= 3.0.1'
 gem 'dor-fetcher', '>= 1.1.1'
 gem 'mysql2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>=4.2.2'
+gem 'rails', '~>5'
 gem 'responders', '~> 2.0'
+gem 'coffee-script'
+gem 'sass-rails'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+
+gem 'config'
+gem 'honeybadger', '~> 3.1'
+gem 'okcomputer' # for monitoring
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer',  platforms: :ruby
 
@@ -58,10 +62,10 @@ group :deployment do
   gem 'capistrano', '~> 3.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+	gem 'capistrano-passenger'
+	gem 'capistrano-shared_configs'
   gem 'dlss-capistrano'
   gem 'capistrano-rvm'
 end
 
-gem 'squash_ruby', :require => 'squash/ruby'
-gem 'squash_rails', :require => 'squash/rails'
 gem 'coveralls', require: false

@@ -48,7 +48,7 @@ describe RevsMapper do
          :score_isi=>94,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information.",
-         :archive_ssi => "Revs Institute Archive"
+         :archive_ssi => "Revs Institute® Archives"
        }
 
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
@@ -89,15 +89,15 @@ describe RevsMapper do
     expected_doc_hash=
       {
          :id=>"bc915dc7146",
-         :title_tsi=>"The Road  Track Archive",
-         :description_tsim=>"The Road  Track Archive contains the library of files from Road  Track magazine's 65-year history.  The archive includes images, notes, performance data and other types of documents and research that supported production of the magazine over its history.",
+         :title_tsi=>"The Road & Track Magazine Collection",
+         :description_tsim=>"The Road & Track Archive contains the library of files from Road & Track magazine's 65-year history.  The archive includes images, notes, performance data and other types of documents and research that supported production of the magazine over its history.",
          :format_ssim=>"collection",
          :image_id_ssm=>nil,
          :source_id_ssi=>"",
          :score_isi=>10,
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research for re-use and reproduction information.",
-         :archive_ssi => "Revs Institute Archive"
+         :archive_ssi => "Revs Institute® Archives"
        }
 
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
@@ -106,12 +106,12 @@ describe RevsMapper do
 
   it "should generate the correct archive_ssi field for road & track" do
 
-    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'mr163sv5231'=>{:label=>'Road & Track Archive',:catkey=>'oooooo'}})
+    setup('oo000oo0001','mods_xml.xml','purl_xml.xml',{'mr163sv5231'=>{:label=>'Road & Track Magazine Collection',:catkey=>'oooooo'}})
     doc=basic_mods
     @mods.from_nk_node(Nokogiri::XML(doc)) # replace mods with our own
     expected_doc_hash=basic_expected_doc_hash
     expected_doc_hash[:archive_ssi]='Road & Track Archive'
-    expected_doc_hash[:collection_ssim]=['Road & Track Archive']
+    expected_doc_hash[:collection_ssim]=['Road & Track Magazine Collection']
     expected_doc_hash[:is_member_of_ssim]=['mr163sv5231']
     expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
 
@@ -162,7 +162,7 @@ describe RevsMapper do
          :is_member_of_ssim => ["aa00bb0001"],
          :collection_ssim => ["Test Collection Name"],
          :score_isi=>0,
-         :archive_ssi => "Revs Institute Archive"
+         :archive_ssi => "Revs Institute® Archives"
        }
 
       expect(@indexer.convert_to_solr_doc).to eq(expected_doc_hash)
@@ -187,7 +187,7 @@ describe RevsMapper do
          :score_isi=>13,
          :description_tsim=>"Description",
          :subjects_ssim=>["Automobile", "History"],
-         :archive_ssi => "Revs Institute Archive",
+         :archive_ssi => "Revs Institute® Archives",
          :group_ssim => ["something in a group", "and another group"],
          :copyright_ss => "Courtesy of The Revs Institute for Automotive Research, Inc. All rights reserved unless otherwise indicated.",
          :use_and_reproduction_ss => "Users must contact The Revs Institute for Automotive Research, Inc. for re-use and reproduction information."
