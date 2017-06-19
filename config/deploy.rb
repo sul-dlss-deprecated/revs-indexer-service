@@ -1,13 +1,7 @@
 set :application, "revs-indexer-service"
 set :repo_url, "https://github.com/sul-dlss/revs-indexer-service"
-set :user, "harvestdor"
 
-set :home_directory, "/opt/app/#{fetch(:user)}"
-set :deploy_to, "#{fetch(:home_directory)}/#{fetch(:application)}"
-
-set :stages, %W(stage dev prod)
-
-server "revs-indexing-#{fetch(:stage)}.stanford.edu", user: fetch(:user), roles: %w{web db app}
+set :deploy_to, "/opt/app/harvestdor/#{fetch(:application)}"
 
 # Default value for :linked_files is []
 set :linked_files, %w{config/database.yml config/honeybadger.yml config/secrets.yml}
