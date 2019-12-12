@@ -1,5 +1,7 @@
-
 {<img src="https://travis-ci.org/sul-dlss/revs-indexer-service.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/sul-dlss/revs-indexer-service]  {<img src="https://coveralls.io/repos/sul-dlss/revs-indexer-service/badge.svg" alt="Coverage Status" />}[https://coveralls.io/r/sul-dlss/revs-indexer-service]
+
+
+=DEPRECATED AND NO LONGER MAINTAINED
 
 
 =RevsIndexerSevice
